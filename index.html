@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El pollo loco</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="img/11_favicon/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+
+
+    <script src="models/drawable-object.class.js"></script>
+    <script src="models/movable-object.class.js"></script>
+    <script src="models/character.class.js"></script>
+    <script src="models/chicken.class.js"></script>
+    <script src="models/babychicken.class.js"></script>
+    <script src="models/sound.class.js"></script>
+    <script src="models/world.class.js"></script>
+    <script src="models/cloud.class.js"></script>
+    <script src="models/background-object.class.js"></script>
+    <script src="models/keyboard.class.js"></script>
+    <script src="models/level.class.js"></script>
+    <script src="models/endboss.class.js"></script>
+    <script src="models/coins.class.js"></script>
+    <script src="models/bottles.class.js"></script>
+    <script src="models/throwabable-object.class.js"></script>
+    <script src="models/status-bar.class.js"></script>
+    <script src="models/status-bar-coins.class.js"></script>
+    <script src="models/status-bar-bottles.class.js"></script>
+    <script src="models/status-bar-endboss.class.js"></script>
+    <script src="levels/level1.js"></script>
+    <script src="script/game.js"></script>
+
+
+</head>
+
+<body>
+    <div id="backgroundImgContainer" class="background ">
+        <div id="start-overlay" class="start-container">
+            <div class="start-img-wrapper">
+                <button class="start-button" onclick="upadteScreen()">
+                    <h2>Comienza el juego</h2>
+                </button>
+                <img id="imgCanvas" class="start-image-canvas" src="img/9_intro_outro_screens/start/startscreen_1.png">
+
+            </div>
+
+        </div>
+
+
+        <h1 class="">El pollo loco</h1>
+        <div id="controller" class="sound-icon-container">
+            <img onclick="soundOn()" class="sound-icon" src="img/10_icon/volume.png">
+            <img onclick="soundOff()" class="sound-icon" src="img/10_icon/mute.png">
+            <img onclick="startGame()" class="sound-icon" src="img/10_icon/play-button.png">
+            <img onclick="pauseGame()" class="sound-icon" src="img/10_icon/pause.png">
+        </div>
+
+        <canvas class="none" id="canvas" width="720" height="480">
+
+            
+        </canvas>
+
+        <div id="howToPlayContainer" class="how-to-play sound-icon-container">
+            <span class="play-text">move:</span>
+            <img class="how-to-play-icons" src="img/10_icon/pointer-left.png">
+            <img class="how-to-play-icons" src="img/10_icon/pointer-right.png">
+            <span class="play-text">jump:</span>
+            <img class="how-to-play-icons" src="img/10_icon/space.png">
+            <span class="play-text">throw bottles:</span>
+            <img class="how-to-play-icons" src="img/10_icon/letter-d.png">
+            <span class="play-text">full screen:</span>
+            <img onclick="fullScreen()" class="how-to-play-icons icon-fullscreen" src="img/10_icon/full-size.png">
+        </div>
+        <div id="mobilePlayPad" class="mobile-play">
+            <div class="mobile-play-left">
+                <img id="turnLeft" class="how-to-play-icons" src="img/10_icon/pointer-left.png">
+                <img id="turnRight" class="how-to-play-icons" src="img/10_icon/pointer-right.png">
+            </div>
+            <div class="mobile-play-right">
+                <img id="jumpUp" class="how-to-play-icons" src="img/10_icon/pointer-up.png">
+                <img id="throwObject" class="how-to-play-icons" src="img/10_icon/bottle.png">
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -5,6 +5,7 @@ class Sound {
 
     audioPepeJump = new Audio('audio/jumpPepe.mp3');
     audioPepeSleep = new Audio('audio/sleepPepe.mp3');
+    audioPepeYawning = new Audio('audio/yawningPepe.mp3');
     audioPepeHurt = new Audio('audio/hurtPepe.mp3');
 
     audioBackround = new Audio('audio/mexico_background.mp3');

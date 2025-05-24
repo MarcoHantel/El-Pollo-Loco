@@ -9,7 +9,7 @@ class MovablePobject extends DrawableObject {
     bottles = 0;
     lastHit = 0;
     lastMove = new Date().getTime();
-    sleeping = false;
+    // sleeping = false;
     animationPaused = false;
 
 
@@ -130,52 +130,19 @@ class MovablePobject extends DrawableObject {
         return this.energy == 0;
     }
 
-    checkSleep() {
-        let timePassed = new Date().getTime() - this.lastMove;
-        if (timePassed > 5000) {  // 5 Sekunden Inaktivität
-            this.sleeping = true;
-
-        } else {
-            if (this.sleeping) {  // Wenn Pepe aufwacht
-                this.sleeping = false;
-            }
-
+    // NEW
+    startIdleCounter() {
+    setInterval(() => {
+        if (!this.world.isPaused) { // Nur zählen, wenn Spiel nicht pausiert ist
+            this.idleCounter++;
         }
-    }
+    }, 1000); // alle 1000 ms hochzählen
+}
+
 
     isInBossZone(bossZoneLeft, bossZoneRight) {
         return this.x >= bossZoneLeft && this.x <= bossZoneRight;
     }
-
-    // randomChangeDirection(xMin, xMax) {
-    //     xMin;
-    //     xMax;
-
-    //     let direction = 'left';
-
-    //     setInterval(() => {
-
-    //         if (world.isPaused) {
-    //             return
-    //         } else {
-    //             if (direction === 'left') {
-    //                 if (this.x > this.xMin) {
-    //                     this.moveLeft();
-    //                 } else {
-    //                     direction = 'right'; // Richtung wechseln, wenn die Grenze erreicht ist
-    //                     this.otherDirection = true; // Flip image
-    //                 }
-    //             } else {
-    //                 if (this.x < this.xMax) {
-    //                     this.moveRight();
-    //                 } else {
-    //                     direction = 'left'; // Grenze links
-    //                     this.otherDirection = false; // flip image
-    //                 }
-    //             }
-    //         }
-    //     }, 1000 / 60);
-    // }
 
     randomChangeDirection(xMin, xMax) {
         let direction = 'left';

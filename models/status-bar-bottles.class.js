@@ -15,10 +15,8 @@ class BottleBar extends DrawableObject {
     constructor(){
         super().loadImage('img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png');
         this.loadImages(this.IMAGES_BOTTLES);
-
         this.width = 180;
         this.height = 45;
-
         this.x = 30;
         this.y = 70;
         this.setPercentage(0); // startBild setzten
@@ -27,8 +25,6 @@ class BottleBar extends DrawableObject {
         this.percentage = percentage; // => 0....5
         let path = this.IMAGES_BOTTLES[this.resolveBottleImageIndex()]; // path = array bild[0]
         this.img = this.imageCash[path]; // Bild laden
-        //console.log(this.percentage)
-        // this.world.throwableObjects.push(this.percentage);
     }
 
     resolveBottleImageIndex() {

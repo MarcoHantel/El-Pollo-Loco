@@ -226,5 +226,8 @@ class Character extends MovablePobject {
         this.playAnimation(this.IMAGES_WALKING);
         this.sound.audioPepeSleep.pause(); // hier wird der Sound angehalten
         this.sound.audioPepeSleep.currentTime = 0; // Wieder zurücksetzen
+
+        this.sound.audioPepeYawning.pause(); // hier wird der Sound angehalten
+        this.sound.audioPepeYawning.currentTime = 0; // Wieder zurücksetzen
     }
 }

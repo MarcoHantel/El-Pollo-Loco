@@ -175,20 +175,20 @@ class World {
                 const boss = this.level.enemies.find(e => e instanceof Endboss);
 
                 if (boss && bottle.isColliding(boss)) {
-                    this.bottleOnBoss(boss);
+                    this.bottleOnBoss(boss, bottle);
                     return; // keine weiteren Checks
                 }
                 // alle Gegner außer der Endboss
                 this.level.enemies.forEach((enemy) => {
                     if (!(enemy instanceof Endboss) && bottle.isColliding(enemy)) {
-                        this.bottleOnChicken(enemy)
+                        this.bottleOnChicken(enemy, bottle)
                     }
                 });
             });
         }, 100);
     }
 
-    bottleOnBoss(boss) {
+    bottleOnBoss(boss, bottle) {
         world.isFromTop = false;
         boss.hit();
         this.endbossBar.setPercentage(boss.energy);
@@ -196,7 +196,7 @@ class World {
         bottle.break();
     }
 
-    bottleOnChicken(enemy) {
+    bottleOnChicken(enemy, bottle) {
         this.character.enemyDie(enemy);
         if (this.soundPlaying) this.setChickenDeatheSound();
         bottle.break();
@@ -253,18 +253,15 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character); // adding Pepe
-
         this.ctx.translate(-this.camera_x, 0); // Back (fix Objects)
         this.addToMap(this.statusBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
         this.addToMap(this.endbossBar);
         this.ctx.translate(this.camera_x, 0); // Forward
-
         this.addObjectsToMap(this.level.coins); // adding coins
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.enemies);
-
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0); // zurückschieben von der camera
         let self = this;
@@ -283,10 +280,8 @@ class World {
         if (mo.otherDirection) {
             this.flipImage(mo)
         }
-
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
-
+        // mo.drawFrame(this.ctx);
         if (mo.otherDirection) {
             this.flipImageBack(mo)
         }
@@ -310,21 +305,17 @@ class World {
         let startImg = document.querySelector('.start-img-wrapper');;
         
 
-
-        if (status == 'lose') {
-            //Zeigt den GameOver screen an (siehe auch character.class.js zweiter Interval)
+        if (status == 'lose') { //Zeigt den GameOver screen an (siehe auch character.class.js zweiter Interval)
             fullScreenEnd(); // beändet den fullscreen
             this.lostTheGame(endScreen, CanvasImage, startImg);
         } else if (status == 'win') {
             fullScreenEnd();
             this.WonTheGame(endScreen, CanvasImage, startImg);
-        } else {
-            return
-        }
+        } else return
+        
     }
 
-    lostTheGame(endScreen, CanvasImage, startImg) {
-        //Zeigt den GameOver screen an (siehe auch character.class.js zweiter Interval)       
+    lostTheGame(endScreen, CanvasImage, startImg) {  //Zeigt den GameOver screen an (siehe auch character.class.js zweiter Interval)   
         endScreen.classList.remove("start-container");
         CanvasImage.classList.add("none");
         endScreen.classList.add("end-container");
@@ -340,8 +331,6 @@ class World {
         endScreen.classList.add("end-container-win");
         CanvasImage.classList.add("none");
         startImg.style.boxShadow = 'none';
-   
-
         this.setGameOverSoundWin();
         this.showEndScreen(endScreen);
         this.endSound();

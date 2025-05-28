@@ -8,7 +8,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="img/11_favicon/favicon.ico">
     <link rel="stylesheet" href="style.css">
 
-
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/character.class.js"></script>
@@ -30,13 +29,10 @@
     <script src="models/status-bar-endboss.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="script/game.js"></script>
-
-
 </head>
 
 <body>
     <div id="impressumPage" class="impressum-page none"></div>
-
     <div id="backgroundImgContainer" class="background ">
         <div id="start-overlay" class="start-container">
             <div class="start-img-wrapper">
@@ -46,7 +42,6 @@
                 <img id="imgCanvas" class="start-image-canvas" src="img/9_intro_outro_screens/start/startscreen_1.png">
             </div>
         </div>
-
         <h1 class="">El pollo loco</h1>
         <div id="controller" class="sound-icon-container">
             <img onclick="soundOn()" class="sound-icon" src="img/10_icon/volume.png">
@@ -54,9 +49,7 @@
             <img onclick="startGame()" class="sound-icon" src="img/10_icon/play-button.png">
             <img onclick="pauseGame()" class="sound-icon" src="img/10_icon/pause.png">
         </div>
-
         <canvas class="none" id="canvas" width="720" height="480"></canvas>
-
         <div id="howToPlayContainer" class="how-to-play sound-icon-container">
             <span class="play-text">move:</span>
             <img class="how-to-play-icons" src="img/10_icon/pointer-left.png">
@@ -83,5 +76,4 @@
         <button onclick="openImpressum()" id="impressumButton" class="impressum-button">Impressum</button>
     </footer>
 </body>
-
 </html>

@@ -1,16 +1,14 @@
 let level;
 
 function setLevel(sound) {
-    // Auf reihenfolge achten
-    // alle arrayes werden an Level übergeben Level([new Chicken(sound)], [new Cloud, new Cloud], etc)
 
     level1 = new Level(
         [
             new Chicken(sound),
-            // new Chicken(sound),
+            new Chicken(sound),
 
-            // new BabyChicken(sound),
-            // new BabyChicken(sound),
+            new BabyChicken(sound),
+            new BabyChicken(sound),
             new BabyChicken(sound),
 
             new Endboss(sound)
@@ -20,8 +18,6 @@ function setLevel(sound) {
             new Cloud(),
             new Cloud()
         ],
-
-
 
         [
             new BackgroundObject('img/5_background/layers/air.png', -719,),
@@ -46,10 +42,10 @@ function setLevel(sound) {
         ],
 
         [
-            // new Coins(),
-            // new Coins(),
-            // new Coins(),
-            // new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
             new Coins()
         ],
 

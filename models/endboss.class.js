@@ -43,7 +43,6 @@ class Endboss extends MovablePobject {
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png'
-
     ];
 
     offset = {
@@ -69,51 +68,68 @@ class Endboss extends MovablePobject {
             if (world.isPaused) {
                 return
             } else {
-                if (world.character.x > 900 && !this.alertActive) {
-                    this.alertActive = true; // Verhindert mehrfaches Starten
-                    let animationInterval = setInterval(() => {
-                        this.playAnimation(this.IMAGES_ALERT); // boss ALERT
-                    }, 200);
-                    let checkInterval = setInterval(() => {
-                        if (world.character.x > 1200 || this.isHurt()) { // Wenn Pepe unter 1200 oder Boss beworfen wird dann Angriff
-                            clearInterval(animationInterval); // Stoppt die ALERT-Animation
-                            clearInterval(checkInterval); // Beendet die Überprüfung
-                            this.startBossAnimationWalk(); // Startet die nächste Animation
-                        }
-                    }, 200); // Prüft alle 200ms, ob Charakter >1200px ist
-                }
+                this.checkEnbossAlerting()
             }
         }, 200);
-
 
         setInterval(() => {
             if (this.dead() && !this.bossKilled) {
                 this.bossKilled = true;
                 this.playDeathAnimation(); // statt playAnimation()
-            
                 const deadAnimationDuration = this.IMAGES_DEAD.length * 200; // Zeit anpassen für Animation 
                 this.stopBossAnimation(deadAnimationDuration);
                 this.stopTheGame(deadAnimationDuration);
-
             } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-                if (world.soundPlaying) {
-                    this.sound.audioEndbossHurt.play();
-                } else {
-                    this.sound.audioEndbossHurt.pause();
-                }
+                this.animationEndbossGetHurt();
             }
         }, 64);
     }
 
-    stopBossAnimation(deadAnimationDuration){
+    checkEnbossAlerting() {
+        if (this.checkEnterEndbosszone900()) {
+            this.alertActive = true; // Verhindert mehrfaches Starten
+            let animationInterval = setInterval(() => {
+                this.playAnimation(this.IMAGES_ALERT); // boss ALERT
+            }, 200);
+            let checkInterval = setInterval(() => {
+                if (this.checkEnterEndbosszone1200()) { // Wenn Pepe unter 1200 oder Boss beworfen wird dann Angriff
+                    this.clearIntervalForBoss(animationInterval, checkInterval)
+                    this.startBossAnimationWalk(); // Startet die nächste Animation
+                }
+            }, 200); // Prüft alle 200ms, ob Charakter >1200px ist
+        }
+    }
+
+    animationEndbossGetHurt() {
+        this.playAnimation(this.IMAGES_HURT);
+        if (world.soundPlaying) {
+            this.sound.audioEndbossHurt.play();
+        } else {
+            this.sound.audioEndbossHurt.pause();
+        }
+    }
+
+    checkEnterEndbosszone900() {
+        return world.character.x > 900 && !this.alertActive
+    }
+
+    checkEnterEndbosszone1200() {
+        return world.character.x > 1200 || this.isHurt()
+    }
+
+    clearIntervalForBoss(animationInterval, checkInterval) {
+        clearInterval(animationInterval); // Stoppt die ALERT-Animation
+        clearInterval(checkInterval); // Beendet die Überprüfung
+    }
+
+    stopBossAnimation(deadAnimationDuration) {
         setTimeout(() => {
             clearInterval(this.bossWalkInterval);
             clearInterval(this.bossMoveInterval);
         }, deadAnimationDuration);
     }
 
-    stopTheGame(deadAnimationDuration){
+    stopTheGame(deadAnimationDuration) {
         setTimeout(() => {
             pauseGame();
             world.gameOverScreen('win');
@@ -128,16 +144,19 @@ class Endboss extends MovablePobject {
                 return;
             }
             if (i < this.IMAGES_DEAD.length) {
-                let path = this.IMAGES_DEAD[i];
-                this.img = this.imageCash[path];
-                i++;
+                namiationEnbossDead(i);
             } else {
                 clearInterval(this.deathAnimationInterval);
                 this.animationPaused = true; // Danach Animation anhalten
             }
         }, 300); // Animationstempo kann ich hier anpassen (langsamer = höhere Zahl)
     }
-    
+
+    namiationEnbossDead(i) {
+        let path = this.IMAGES_DEAD[i];
+        this.img = this.imageCash[path];
+        i++;
+    }
 };
 
 

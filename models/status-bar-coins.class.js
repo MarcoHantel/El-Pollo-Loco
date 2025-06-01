@@ -39,7 +39,6 @@ class CoinBar extends DrawableObject {
         } else if (this.percentage > 1) {
             return 1;
         } else {
-
             return 0;
         }
     };

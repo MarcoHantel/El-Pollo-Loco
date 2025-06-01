@@ -2,7 +2,6 @@ class DrawableObject {
 
     x = 120;
     y = 280;
-
     height = 150;
     width = 100;
     currentImage = 0;
@@ -16,46 +15,27 @@ class DrawableObject {
     }
 
     draw(ctx) {
-
         try {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
         } catch (e) {
             console.warn('Error loading Image', e);
             console.log('cound not load image', this.img);
-
         }
     }
 
-    // drawFrame(ctx) {
-
-
-    //     if ((this instanceof Character || this instanceof Chicken || this instanceof Endboss ||
-    //         this instanceof Coins || this instanceof Bottles)) {
-    //         ctx.beginPath();
-    //         ctx.lineWidth = '5';
-    //         ctx.strokeStyle = 'blue';
-    //         ctx.rect(this.x, this.y, this.width, this.height);
-    //         ctx.stroke();
-    //     }
-    // }
-
     drawFrame(ctx) {
         if (
-            this instanceof Character ||
-            this instanceof Chicken ||
-            this instanceof BabyChicken ||
-            this instanceof Endboss ||
-            this instanceof Coins ||
-            this instanceof Bottles
+            this instanceof Character || this instanceof Chicken || this instanceof BabyChicken ||
+            this instanceof Endboss || this instanceof Coins || this instanceof Bottles
         ) {
-            // === Blauer Rahmen (äußere Umrandung des Objekts) ===
+            // Blauer Rahmen (äußere Umrandung des Objekts)
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'blue';
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
     
-            // === Roter Rahmen (Offset-Hitbox) ===
+            // Roter Rahmen (Offset-Hitbox)
             if (this.offset) {
                 ctx.beginPath();
                 ctx.lineWidth = '2';
@@ -70,12 +50,6 @@ class DrawableObject {
             }
         }
     }
-    
-
-    /**
- * 
- * @param {Array} arr - ['img/image1.png, 'img/image2.png'] 
- */
 
     loadImages(arr) {
         arr.forEach((path) => {

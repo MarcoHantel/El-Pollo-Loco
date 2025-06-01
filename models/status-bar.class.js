@@ -1,7 +1,5 @@
 class StatusBar extends DrawableObject {
 
-
-
     IMAGES_STATUS_HEALTH = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png', // image 0
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
@@ -22,7 +20,6 @@ class StatusBar extends DrawableObject {
         this.y = 35;
         this.setPercentage(100); // startBild setzten
     }
-
 
     setPercentage(percentage) {
         this.percentage = percentage; // => 0....5

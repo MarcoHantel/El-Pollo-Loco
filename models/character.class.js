@@ -1,13 +1,13 @@
 class Character extends MovablePobject {
 
     x = 120;
-    y = 90;
+    y = 20;
     speed = 6;
     height = 280;
     width = 130;
     sound;
-    world; //brauch ich die?
-    idleCounter = 0; //NEW
+    world; 
+    idleCounter = 0;
 
 
     IMAGES_WALKING = [
@@ -47,7 +47,7 @@ class Character extends MovablePobject {
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
-    IMAGES_SLEEP = [
+    IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
         'img/2_character_pepe/1_idle/idle/I-3.png',
@@ -73,10 +73,10 @@ class Character extends MovablePobject {
     ];
 
     offset = {
-        top: 50,
-        left: 20,
-        right: 20,
-        bottom: 5
+        top: 100,
+        left: 25,
+        right: 25,
+        bottom: 5        
     };
 
     constructor() {
@@ -87,11 +87,11 @@ class Character extends MovablePobject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_SLEEP_LONG);
-        this.loadImages(this.IMAGES_SLEEP);
+        this.loadImages(this.IMAGES_IDLE);
         this.sound = sound;
         this.applyGravity();
         this.animate();
-        this.startIdleCounter(); //NEW
+        this.startIdleCounter();        
     }
 
     // Pepe is moving
@@ -145,26 +145,25 @@ class Character extends MovablePobject {
     }
 
     checkAnimationPepe() {
-        if (this.world.isPaused) { // prüft ob die Anwendung pausiert wurde (siehe world.class.js und game.js pausGame() und startGame() )
-            return
-        } else {
-
-            if (this.dead()) {
-                this.animationPepeDead();
-                this.animationGameOver();
-            } else if (this.idleCounter > 14) { //schicke Pepe nach 8 Sekunden in den Schlaf 
-                this.animationPepeSleep();
-            } else if (this.idleCounter > 8) { //schicke Pepe nach 15 Sekunden in den Schlaf 
-                this.animationPepeIsSleepy();
-            } else if (this.isHurt()) {
-                this.animationPepeHurt();
-            } else if (this.isAboveGround()) {
-                this.animationPepeJump();
-            } else if (this.isPepeMoving()) {
-                this.animationPepeMove();
-            }
+    if (this.world.isPaused) { // prüft ob die Anwendung pausiert wurde (siehe world.class.js und game.js pausGame() und startGame() )
+        return;
+    } else {
+        if (this.dead()) {
+            this.animationPepeDead();
+            this.animationGameOver();
+        } else if (this.isHurt()) {
+            this.animationPepeHurt();
+        } else if (this.idleCounter > 14) { //schicke Pepe nach 14 Sekunden in den Schlaf 
+            this.animationPepeSleep();
+        } else if (this.idleCounter > 0.1) { //schicke Pepe Idle 
+            this.animationPepeIsIdle();
+        } else if (this.isAboveGround()) {
+            this.animationPepeJump();
+        } else if (this.isPepeMoving()) {
+            this.animationPepeMove();
         }
     }
+}
 
     animationPepeDead() {
         this.playAnimation(this.IMAGES_DEAD);
@@ -173,19 +172,13 @@ class Character extends MovablePobject {
         }, 1000); // Nach 1 Sekunde pausieren
     }
 
-    animationPepeIsSleepy() {
-        this.playAnimation(this.IMAGES_SLEEP); // Schlafanimation1
+    animationPepeIsIdle() {
+        this.playAnimation(this.IMAGES_IDLE); // Idle animation
         this.sound.audioPepeSleep.pause();
-        if (this.world.soundPlaying) {
-            this.sound.audioPepeYawning.play();
-        } else {
-            this.sound.audioPepeYawning.pause();
-        }
     }
 
     animationPepeSleep() {
         this.playAnimation(this.IMAGES_SLEEP_LONG); // Schlafanimation2
-        this.sound.audioPepeYawning.pause(); 
         if (this.world.soundPlaying) {
             this.sound.audioPepeSleep.play();
         } else {

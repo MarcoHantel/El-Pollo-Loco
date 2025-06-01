@@ -2,16 +2,16 @@ class MovablePobject extends DrawableObject {
 
     speed = 0.2;
     otherDirection = false;
+    direction = 'left';
     speedY = 0;
+    groundY = 165;
     acceleration = 2.3;
     energy = 100;
     coins = 0;
     bottles = 0;
     lastHit = 0;
     lastMove = new Date().getTime();
-    // sleeping = false;
     animationPaused = false;
-
 
     offset = {
         top: 0,
@@ -20,20 +20,29 @@ class MovablePobject extends DrawableObject {
         bottom: 0
     };
 
+    getGroundY() {
+        if (this instanceof ThrowableObjects) {
+            return 330;
+        } else {
+            return 165;
+        }
+    }
+
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
+            } else {
+                this.y = this.getGroundY();
+                this.speedY = 0;
             }
-
         }, 1000 / 50);
     }
 
     isAboveGround() {
-        if (this instanceof ThrowableObjects) { // throwableObjects fallen durch und stoppen nicht bei
-            // return true;
-            return this.y < 330
+        if (this instanceof ThrowableObjects) {
+            return this.y < 330;
         } else {
             return this.y < 150;
         }
@@ -48,7 +57,7 @@ class MovablePobject extends DrawableObject {
         this.img = this.imageCash[path];
         this.currentImage++ // hoch zählen von currentImage 
     }
-    
+
     moveRight() {
         this.x += this.speed
     }
@@ -64,22 +73,18 @@ class MovablePobject extends DrawableObject {
     collectCoin(coin) {
         this.coins++;
         let index = level1.coins.indexOf(coin);
-
         if (index !== -1) {
             level1.coins.splice(index, 1);
         }
     }
 
-
     collectBottle(bottle) {
         this.bottles++;
         let index = level1.bottles.indexOf(bottle);
-
         if (index !== -1) {
             level1.bottles.splice(index, 1);
         }
     }
-
 
     enemyDie(chicken) {
         chicken.enemiesDie = true;
@@ -105,17 +110,13 @@ class MovablePobject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
-
     hit() {
         if (!world.isFromTop) {
             this.energy -= 5;
-
             if (this.energy < 0) {
                 this.energy = 0;
-
             } else {
                 this.lastHit = new Date().getTime(); // Zeitpunkt in Zahlenform speichern
-
             }
         }
     }
@@ -130,77 +131,83 @@ class MovablePobject extends DrawableObject {
         return this.energy == 0;
     }
 
-    // NEW
     startIdleCounter() {
-    setInterval(() => {
-        if (!this.world.isPaused) { // Nur zählen, wenn Spiel nicht pausiert ist
-            this.idleCounter++;
-        }
-    }, 1000); // alle 1000 ms hochzählen
-}
-
+        setInterval(() => {
+            if (!this.world.isPaused) { // Nur zählen, wenn Spiel nicht pausiert ist
+                this.idleCounter++;
+            }
+        }, 1000); // alle 1000 ms hochzählen
+    }
 
     isInBossZone(bossZoneLeft, bossZoneRight) {
         return this.x >= bossZoneLeft && this.x <= bossZoneRight;
     }
 
     randomChangeDirection(xMin, xMax) {
-        let direction = 'left';
-    
         // Speichere das Interval in einer Variablen um später clearInterval zu setzten
         const moveInterval = setInterval(() => {
-    
             if (world.isPaused) {
                 return;
             } else {
-                if (direction === 'left') {
-                    if (this.x > xMin) {      // <- Hier xMin benutzen (nicht this.xMin)
-                        this.moveLeft();
-                    } else {
-                        direction = 'right'; 
-                        this.otherDirection = true; 
-                    }
+                if (this.direction === 'left') {
+                    this.randomChickenMoveLeft(xMin);
                 } else {
-                    if (this.x < xMax) {      // <- Hier xMax benutzen (nicht this.xMax)
-                        this.moveRight();
-                    } else {
-                        direction = 'left'; 
-                        this.otherDirection = false; 
-                    }
+                    this.randomChickenMoveRight(xMax);
                 }
             }
         }, 1000 / 60); // 60 FPS
-    
         return moveInterval; // <-- wichtig für clearInterval
     }
-    
+
+    randomChickenMoveLeft(xMin) {
+        if (this.x > xMin) {      // Hier xMin benutzen (nicht this.xMin)
+            this.moveLeft();
+        } else {
+            this.direction = 'right';
+            this.otherDirection = true;
+        }
+    }
+
+    randomChickenMoveRight(xMax) {
+        if (this.x < xMax) {      // Hier xMax benutzen (nicht this.xMax)
+            this.moveRight();
+        } else {
+            this.direction = 'left';
+            this.otherDirection = false;
+        }
+    }
+
     startBossAnimationWalk() {
         if (!this.endbossPlayed) {
             this.endbossPlayed = true;
-    
             if (world.soundPlaying) {
                 this.sound.audioEndbossAlert.play(); // Sound abspielen wenn soundPlaying true ist
             } else {
                 this.sound.audioEndbossAlert.pause();
             }
-    
             // Boss Animation
-            this.bossWalkInterval = setInterval(() => {
-                if (world.isPaused) {
-                    return;
-                } else {
-                    this.playAnimation(this.IMAGES_WALK); // Boss läuft los
-                }
-            }, 200);
-    
-            // Boss bewegt sich
-            let xMax = this.xMax;
-            let xMin = this.xMin;
-            this.bossMoveInterval = this.randomChangeDirection(xMin, xMax); // Boss bewegt sich zufällig nach links und rechts
+            this.animationBossWalk();
+            this.animationBossChangeDirection();
         } else {
             return;
         }
     }
-    
-    
+
+    animationBossWalk() {
+        this.bossWalkInterval = setInterval(() => {
+            if (world.isPaused) {
+                return;
+            } else {
+                this.playAnimation(this.IMAGES_WALK); // Boss läuft los
+            }
+        }, 200);
+    }
+
+    animationBossChangeDirection() {
+        let xMax = this.xMax;
+        let xMin = this.xMin;
+        this.bossMoveInterval = this.randomChangeDirection(xMin, xMax); // Boss bewegt sich zufällig nach links und rechts
+    }
+
+
 }

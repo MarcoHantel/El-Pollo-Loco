@@ -8,7 +8,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="img/11_favicon/favicon.ico">
     <link rel="stylesheet" href="style.css">
 
-
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/character.class.js"></script>
@@ -35,6 +34,9 @@
 </head>
 
 <body>
+    <div id="turnDevice" class="deviceBlcker none"></div>
+    <div id="impressumPage" class="impressum-page none"></div>
+
     <div id="backgroundImgContainer" class="background ">
         <div id="start-overlay" class="start-container">
             <div class="start-img-wrapper">
@@ -42,11 +44,8 @@
                     <h2>Comienza el juego</h2>
                 </button>
                 <img id="imgCanvas" class="start-image-canvas" src="img/9_intro_outro_screens/start/startscreen_1.png">
-
             </div>
-
         </div>
-
 
         <h1 class="">El pollo loco</h1>
         <div id="controller" class="sound-icon-container">
@@ -56,10 +55,7 @@
             <img onclick="pauseGame()" class="sound-icon" src="img/10_icon/pause.png">
         </div>
 
-        <canvas class="none" id="canvas" width="720" height="480">
-
-            
-        </canvas>
+        <canvas class="none" id="canvas" width="720" height="480"></canvas>
 
         <div id="howToPlayContainer" class="how-to-play sound-icon-container">
             <span class="play-text">move:</span>
@@ -83,8 +79,9 @@
             </div>
         </div>
     </div>
-
-
+    <footer id="footer-class">
+        <button onclick="openImpressum()" id="impressumButton" class="impressum-button">Impressum</button>
+    </footer>
 </body>
 
 </html>

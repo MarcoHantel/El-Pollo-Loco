@@ -6,6 +6,8 @@ class BabyChicken extends MovablePobject {
     width = 65;
     xMin = 200 + Math.random() * 800
     xMax = 800 + Math.random() * 1000
+    // xMax = xMin + 100 + Math.random() * 300; // Mindestens 100px größer, maximal 400px größer
+
 
     IMAGE_BABYCHICKEN = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -45,7 +47,7 @@ class BabyChicken extends MovablePobject {
 
         let xMin = this.xMin;
         let xMax = this.xMax;
+        // let xMax = this.xMin + 100 + Math.random() * 300;
         this.randomChangeDirection(xMin, xMax); // lässt die chickens random von links nach rechts laufen
-
     };
 }

@@ -8,8 +8,9 @@ let gameIsRunning = false;
 
 
 function upadteScreen() {
+    document.getElementById('startOverlayWrapper').classList.add("none");
     document.getElementById('start-overlay').classList.remove("start-container");
-    document.getElementById('imgCanvas').classList.remove("none");
+    // document.getElementById('imgCanvas').classList.remove("none");
     document.getElementById('start-overlay').classList.add("none");
     document.getElementById('canvas').classList.remove("none");
     document.getElementById('start-overlay').classList.remove("end-container");
@@ -31,19 +32,22 @@ function fullScreenEnd() {
 function soundOn() {
     soundPlaying = world.soundPlaying = true;
     world.checkSound(soundPlaying); // lässt World entscheiden, was gemacht wird
-    saveToLocalStorage(true); //NEW
+    saveToLocalStorage(true);
 }
 
 function soundOff() {
     soundPlaying = world.soundPlaying = false;
     world.checkSound(soundPlaying); // Sound aus
-    saveToLocalStorage(false); //NEW
+    saveToLocalStorage(false);
 }
- //NEW
+
 function saveToLocalStorage(value) {
     localStorage.setItem("sound", value);
 }
 
+function reloadPage() {
+    window.location.reload();
+}
 
 function startGame() {
     world.isPaused = false;
@@ -60,11 +64,14 @@ function pauseGame() {
 
 function init() {
     sound = new Sound();
+    removeImpressum();
+    addPlaybuttonsForMobile()
     canvas = document.getElementById('canvas');
     setLevel(sound);
     world = new World(canvas, keyboard, sound);
     MobileKeyboardPress();
-    removeImpressum();
+    addPlaybuttonsForMobile();
+
 }
 
 function removeImpressum() {
@@ -83,6 +90,12 @@ function updateImpressumContent() {
     let impressum = document.getElementById('impressumPage');
     impressum.classList.remove('none');
     impressum.innerHTML = returnImpressumHTML();
+}
+
+function addPlaybuttonsForMobile() {
+    let mobileplay = document.getElementById('mobilePlayPad');
+    mobileplay.classList.remove('none')
+    mobileplay.classList.add('d-flex')
 }
 
 function returnImpressumHTML() {

@@ -29,7 +29,6 @@ class World {
         this.checkSound();
     }
 
-
     checkSound(soundPlaying) {
         if (soundPlaying || this.soundPlaying) {
             this.setBackgroundSound();
@@ -314,7 +313,7 @@ class World {
 
     lostTheGame(endScreen, CanvasImage, startImg) {  //Zeigt den GameOver screen an (siehe auch character.class.js zweiter Interval)   
         endScreen.classList.remove("start-container");
-        CanvasImage.classList.add("none");
+        // CanvasImage.classList.add("none");
         endScreen.classList.add("end-container");
         startImg.style.boxShadow = 'none';
         this.setGameOverSound();

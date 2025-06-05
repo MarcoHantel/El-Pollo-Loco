@@ -31,26 +31,4 @@ class Coins extends MovablePobject {
         }, 400);
 
     };
-
-    setPercentage(percentage) {
-        this.percentage = percentage; // => 0....5
-        let path = this.IMAGE_COINS[this.resolveImageIndex()]; // path = array bild[0]
-        this.img = this.imageCash[path]; // Bild laden
-    }
-
-    resolveImageIndex() {
-        if (this.percentage == 100) {
-            return 5;
-        } else if (this.percentage > 80) {
-            return 4;
-        } else if (this.percentage > 60) {
-            return 3;
-        } else if (this.percentage > 40) {
-            return 2;
-        } else if (this.percentage > 20) {
-            return 1;
-        } else {
-            return 0;
-        }
-    };
 } 

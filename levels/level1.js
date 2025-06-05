@@ -46,10 +46,10 @@ function setLevel(sound) {
         ],
 
         [
-            // new Coins(),
-            // new Coins(),
-            // new Coins(),
-            // new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
+            new Coins(),
             new Coins()
         ],
 

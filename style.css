@@ -3,6 +3,10 @@
     src: url(font/Bangers/Bangers-Regular.ttf);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: 'Bang', Arial, Helvetica, sans-serif;
@@ -67,6 +71,12 @@ footer {
     border-radius: 10px;
 }
 
+.text-impressum {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 
 .close-impressum-button {
     background-color: rgb(109, 142, 35);
@@ -112,17 +122,55 @@ canvas {
     background-position: center;
 }
 
-.start-img-wrapper {
+/* .start-img-wrapper {
+    background-color: rgba(0, 0, 0, 0.4);
     width: 100%;
     max-width: 920px;
     height: auto;
-    max-height: 680px;
+    max-height: 1500px;
     overflow: hidden;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     margin: 0 30px 0 30px;
-    box-shadow: 1px 1px 6px 7px rgb(62 20 20 / 49%);
+    box-shadow: 1px 1px 6px 7px rgb(20 20 20);
+    padding: 16px;
+    border-radius: 5px;
+} */
+.start-img-wrapper {
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 920px;
+    height: auto;
+    max-height: 1500px;
+    overflow-y: auto;
+    /* <-- Hier der Trick! */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 30px 0 30px;
+    box-shadow: 1px 1px 6px 7px rgb(20 20 20);
+    padding: 16px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    /* WICHTIG für Padding! */
+}
+
+
+.game-instructions {
+    color: white;
+    letter-spacing: 2px;
+    font-size: 20px;
+    margin-top: 32px;
+    overflow: hidden;
+    max-height: 400px;
+}
+
+.liste {
+    display: flex;
+    align-items: center;
 }
 
 .start-image-canvas {
@@ -210,10 +258,6 @@ h1 {
     align-items: center;
     justify-content: center;
     margin: 10px 0 24px 0;
-    background-color: rgb(255, 207, 75);
-    padding: 5px;
-    border: solid 4px rgb(58, 7, 7);
-    border-radius: 5px;
 }
 
 .sound-icon {
@@ -245,12 +289,20 @@ h1 {
     font-size: x-large;
 }
 
+.button-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    margin: 32px 0px 32px 0px;
+}
+
 .start-button {
-    position: absolute;
+    /* position: absolute; */
     background-color: rgb(109, 142, 35);
-    width: 300px;
-    height: 100px;
-    box-shadow: inset 0px 0px 20px 8px rgb(5, 48, 24);
+    width: 250px;
+    height: 80px;
+    box-shadow: inset 0px 0px 15px 8px rgb(5, 48, 24);
     border: 5px solid rgb(5, 45, 22);
     border-radius: 8px;
     cursor: pointer;
@@ -259,9 +311,9 @@ h1 {
 .start-button h2 {
     color: white;
     font-family: Bang;
-    font-size: 36px;
+    font-size: 26px;
     text-shadow: #fc0 1px 0 10px;
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
 }
 
 .start-button:hover {
@@ -286,16 +338,18 @@ h1 {
 }
 
 .mobile-play {
-    width: 80%;
-    margin: 10px 32px 10px 32px;
-    height: 50px;
-    display: none;
+    position: fixed;
+    left: 0px;
+    bottom: 10px;
+    z-index: 999999;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(255, 207, 75);
-    padding: 5px 25px 5px 25px;
-    border: solid 4px rgb(58, 7, 7);
-    border-radius: 5px;
+    width: 100%;
+    padding: 0px 20px 0px 20px;
+}
+
+.d-flex {
+    display: flex;
 }
 
 /* Smartphone 760px      */
@@ -331,6 +385,7 @@ h1 {
 }
 
 @media only screen and (max-width: 1180px) {
+
     canvas {
         width: 100%;
     }
@@ -347,16 +402,21 @@ h1 {
         display: none;
     }
 
-    .mobile-play {
-        display: flex;
+    .sound-icon-container {
+        display: none;
     }
+
+    /* .mobile-play {
+        display: flex;
+    } */
 }
 
-/* Smartphone 480px */
 
 @media only screen and (max-height: 860px) {
+
     canvas {
-        height: 75vh;
+        /* height: 75vh; */
+        height: 100vh;
     }
 
     canvas {
@@ -371,7 +431,7 @@ h1 {
         outline: none;
     }
 
-    .mobile-play {
+    /* .mobile-play {
         display: flex;
         margin: 0;
         width: 100%;
@@ -380,13 +440,13 @@ h1 {
         padding: 5px 25px 5px 25px;
         border: none;
         border-radius: 0px;
-    }
+    } */
 
     .how-to-play {
         display: none;
     }
 
-    .sound-icon-container {
+    /* .sound-icon-container {
         margin: 0;
         padding: 3px;
         border: none;
@@ -397,13 +457,113 @@ h1 {
     .sound-icon {
         width: 24px;
         margin: 0 15px 0 15px;
-    }
+    } */
 }
 
 @media only screen and (max-height: 630px) {
 
     .start-img-wrapper {
         width: 60%;
-        max-height: 450px;
+        max-height: 250px;
+        overflow-y: auto;
+        padding: 30px 5px 30px 5px;
     }
+}
+
+/* NEW */
+@media (max-width: 720px) {
+    /* .sound-icon-container {
+        display: none;
+    } */
+
+    canvas {
+        width: 100%;
+    }
+}
+
+@media (max-width: 800px) {
+
+    h2 {
+        display: block;
+        font-size: 1.3em;
+        margin-block-start: 0.5em;
+        margin-block-end: 0.5em;
+    }
+
+    .impressum-wrapper {
+        font-size: 20px;
+    }
+
+    .text-impressum {
+        padding: 0px, 5px, 0px, 5px;
+    }
+
+    .game-instructions {
+        letter-spacing: 1px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 10px 5px 5px 5px;
+        border-radius: 5px;
+        scrollbar-color: rgba(5, 45, 22, 0) rgba(109, 142, 35, 0);
+        scrollbar-width: thin;
+        margin-top: 16px;
+    }
+
+    .game-instructions:hover {
+        overflow-y: scroll;
+        scrollbar-color: rgb(5, 45, 22) rgb(109, 142, 35);
+        scrollbar-width: thin;
+    }
+}
+
+@media only screen and (max-height: 900px) {
+
+    .game-instructions {
+        letter-spacing: 1px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 10px 5px 5px 5px;
+        border-radius: 5px;
+        scrollbar-color: rgba(5, 45, 22, 0) rgba(109, 142, 35, 0);
+        scrollbar-width: thin;
+        margin-top: 16px;
+    }
+
+    .game-instructions:hover {
+        overflow-y: scroll;
+        scrollbar-color: rgb(5, 45, 22) rgb(109, 142, 35);
+        scrollbar-width: thin;
+    }
+
+    .button-wrapper {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        margin: 16px 0px 16px 0px;
+    }
+
+    .start-button {
+        background-color: rgb(109, 142, 35);
+        width: 130px;
+        height: 40px;
+        box-shadow: inset 0px 0px 5px 2px rgb(5, 48, 24);
+        border: 3px solid rgb(5, 45, 22);
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .start-button h2 {
+        color: white;
+        font-family: Bang;
+        font-size: 12px;
+        text-shadow: #fc0 1px 0 10px;
+        letter-spacing: 1.5px;
+        margin-block-start: 0em;
+        margin-block-end: 0em;
+        font-weight: normal;
+
+    }
+
+
 }

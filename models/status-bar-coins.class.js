@@ -30,17 +30,41 @@ class CoinBar extends DrawableObject {
     resolveCoinImageIndex() {
         if (this.percentage == 5) {
             return 5;
-        } else if (this.percentage > 4) {
+        } else if (this.percentage == 4) {
             return 4;
-        } else if (this.percentage > 3) {
+        } else if (this.percentage == 3) {
             return 3;
-        } else if (this.percentage > 2) {
+        } else if (this.percentage == 2) {
             return 2;
-        } else if (this.percentage > 1) {
+        } else if (this.percentage == 2) {
             return 1;
         } else {
             return 0;
         }
     };
+
+
+
+    //     setPercentage(percentage) {
+    //     this.percentage = percentage; // => 0....5
+    //     let path = this.IMAGE_COINS[this.resolveImageIndex()]; // path = array bild[0]
+    //     this.img = this.imageCash[path]; // Bild laden
+    // }
+
+    // resolveImageIndex() {
+    //     if (this.percentage == 100) {
+    //         return 5;
+    //     } else if (this.percentage > 80) {
+    //         return 4;
+    //     } else if (this.percentage > 60) {
+    //         return 3;
+    //     } else if (this.percentage > 40) {
+    //         return 2;
+    //     } else if (this.percentage > 20) {
+    //         return 1;
+    //     } else {
+    //         return 0;
+    //     }
+    // };
 
 }

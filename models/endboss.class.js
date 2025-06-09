@@ -208,16 +208,17 @@ class Endboss extends MovablePobject {
             }
             if (i < this.IMAGES_DEAD.length) {
                 this.namiationEnbossDead(i);
+                i++;
             } else {
                 clearInterval(this.deathAnimationInterval);
-                this.animationPaused = true; // Danach Animation anhalten
+                this.animationPaused = true;
             }
-        }, 300); // Animationstempo kann ich hier anpassen (langsamer = höhere Zahl)
+        }, 300);
     }
 
     namiationEnbossDead(i) {
         let path = this.IMAGES_DEAD[i];
         this.img = this.imageCash[path];
-        i++;
+
     }
 }

@@ -93,9 +93,9 @@ function updateImpressumContent() {
 }
 
 function addPlaybuttonsForMobile() {
-    let mobileplay = document.getElementById('mobilePlayPad');
-    mobileplay.classList.remove('none')
-    mobileplay.classList.add('d-flex')
+        let mobileplay = document.getElementById('mobilePlayPad');
+        mobileplay.classList.remove('none')
+        mobileplay.classList.add('d-flex')
 }
 
 function returnImpressumHTML() {

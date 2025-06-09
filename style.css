@@ -405,17 +405,17 @@ h1 {
     .sound-icon-container {
         display: none;
     }
-
-    /* .mobile-play {
-        display: flex;
-    } */
 }
 
+@media (min-width: 1180px){
+        .mobile-play {
+        display: none;
+    }
+}
 
 @media only screen and (max-height: 860px) {
 
     canvas {
-        /* height: 75vh; */
         height: 100vh;
     }
 
@@ -431,33 +431,9 @@ h1 {
         outline: none;
     }
 
-    /* .mobile-play {
-        display: flex;
-        margin: 0;
-        width: 100%;
-        margin: 0px;
-        height: 100%;
-        padding: 5px 25px 5px 25px;
-        border: none;
-        border-radius: 0px;
-    } */
-
     .how-to-play {
         display: none;
     }
-
-    /* .sound-icon-container {
-        margin: 0;
-        padding: 3px;
-        border: none;
-        border-radius: 0px;
-        width: 100%;
-    }
-
-    .sound-icon {
-        width: 24px;
-        margin: 0 15px 0 15px;
-    } */
 }
 
 @media only screen and (max-height: 630px) {

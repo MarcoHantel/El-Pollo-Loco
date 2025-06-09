@@ -75,11 +75,11 @@ class Endboss extends MovablePobject {
         setInterval(() => {
             if (this.dead() && !this.bossKilled) {
                 this.bossKilled = true;
-                this.playDeathAnimation(); // statt playAnimation()
-                const deadAnimationDuration = this.IMAGES_DEAD.length * 200; // Zeit anpassen für Animation 
+                this.playDeathAnimation();
+                const deadAnimationDuration = this.IMAGES_DEAD.length * 150;
                 this.stopBossAnimation(deadAnimationDuration);
                 this.stopTheGame(deadAnimationDuration);
-            } else if (this.isHurt()) {
+            } else if (this.isHurt() && !this.bossKilled) {
                 this.animationEndbossGetHurt();
             }
         }, 64);
@@ -144,18 +144,14 @@ class Endboss extends MovablePobject {
                 return;
             }
             if (i < this.IMAGES_DEAD.length) {
-                namiationEnbossDead(i);
+                const path = this.IMAGES_DEAD[i];
+                this.img = this.imageCash[path];
+                i++;
             } else {
                 clearInterval(this.deathAnimationInterval);
-                this.animationPaused = true; // Danach Animation anhalten
+                this.animationPaused = true;
             }
-        }, 300); // Animationstempo kann ich hier anpassen (langsamer = höhere Zahl)
-    }
-
-    namiationEnbossDead(i) {
-        let path = this.IMAGES_DEAD[i];
-        this.img = this.imageCash[path];
-        i++;
+        }, 300);
     }
 };
 

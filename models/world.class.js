@@ -297,23 +297,23 @@ class World {
 
     gameOverScreen(status) {
         let endScreen = document.getElementById('start-overlay');
-        let CanvasImage = document.getElementById('imgCanvas');
+        // let CanvasImage = document.getElementById('imgCanvas');
         let startImg = document.querySelector('.start-img-wrapper');;
         
 
         if (status == 'lose') { //Zeigt den GameOver screen an (siehe auch character.class.js zweiter Interval)
             fullScreenEnd(); // beändet den fullscreen
-            this.lostTheGame(endScreen, CanvasImage, startImg);
+            this.lostTheGame(endScreen, startImg);
         } else if (status == 'win') {
             fullScreenEnd();
-            this.WonTheGame(endScreen, CanvasImage, startImg);
+            this.WonTheGame(endScreen, startImg);
         } else return
         
     }
 
-    lostTheGame(endScreen, CanvasImage, startImg) {  //Zeigt den GameOver screen an (siehe auch character.class.js zweiter Interval)   
+    lostTheGame(endScreen, startImg) {  //Zeigt den GameOver screen an (siehe auch character.class.js zweiter Interval)   
         endScreen.classList.remove("start-container");
-        // CanvasImage.classList.add("none");
+
         endScreen.classList.add("end-container");
         startImg.style.boxShadow = 'none';
         this.setGameOverSound();
@@ -322,10 +322,9 @@ class World {
         return;
     }
 
-    WonTheGame(endScreen, CanvasImage, startImg) {
+    WonTheGame(endScreen, startImg) {
         endScreen.classList.remove("start-container");
         endScreen.classList.add("end-container-win");
-        CanvasImage.classList.add("none");
         startImg.style.boxShadow = 'none';
         this.setGameOverSoundWin();
         this.showEndScreen(endScreen);

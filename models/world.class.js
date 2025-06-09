@@ -15,9 +15,9 @@ class World {
     /** @type {EndbossBar} UI bar showing the boss's health. */
     endbossBar = new EndbossBar();
     /** @type {Array<ThrowableObjects>} List of throwable objects like bottles. */
-    throwableObjects = []; 
+    throwableObjects = [];
     /** @type {Object} Current game level data, including enemies, coins, bottles, etc. */
-    level = level1; 
+    level = level1;
     /** @type {boolean} Indicates whether the sound is muted. */
     isMuted = false;
     /** @type {HTMLCanvasElement} Canvas element used for rendering the game. */
@@ -30,20 +30,20 @@ class World {
     /** @type {Object} Sound manager containing audio elements. */
     sound;
     /** @type {boolean} Indicates whether sound is currently enabled (from localStorage). */
-    soundPlaying = JSON.parse(localStorage.getItem("sound")); 
+    soundPlaying = JSON.parse(localStorage.getItem("sound"));
     /** 
      * Camera offset on the x-axis to simulate side-scrolling.
      * Note: In canvas coordinates, (0,0) is at the top-left corner.
      * @type {number} 
      */
-    camera_x = 0; 
+    camera_x = 0;
     /** @type {boolean} Indicates if the game is currently paused. */
     isPaused = false;
     /** 
      * Helper flag indicating if the character attacked an enemy from above (e.g. by jumping).
      * @type {boolean} 
      */
-    isFromTop = false; 
+    isFromTop = false;
     /**
      * Creates a new World instance.
      * @param {HTMLCanvasElement} canvas The canvas element where the game is rendered.
@@ -83,7 +83,7 @@ class World {
     }
     /** Starts and loops the background music. */
     setBackgroundSound() {
-        this.sound.audioBackround.loop = true; 
+        this.sound.audioBackround.loop = true;
         this.sound.audioBackround.play();
     }
     /** Plays the coin collection sound effect. */
@@ -137,14 +137,13 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (enemy instanceof Endboss) return;
                 if (this.character.isColliding(enemy)) {
-                    // Because canvas Y axis starts at the top, larger Y means lower on screen
                     const pepeBottom = this.character.y + this.character.height - this.character.offset.bottom;
                     const enemyTop = enemy.y + enemy.offset.top;
                     const isFromAbove = pepeBottom > enemyTop && this.character.speedY < 0 && this.character.isAboveGround();
                     if (isFromAbove) {
-                        this.pepeAttackTop(enemy)
+                        this.pepeAttackTop(enemy);
                     } else if (!this.character.isHurt()) {
-                        this.pepeGetHurt()
+                        this.pepeGetHurt();
                     }
                 }
             });
@@ -158,7 +157,7 @@ class World {
         world.isFromTop = true;
         this.character.enemyDie(enemy);
         if (this.soundPlaying) this.setChickenDeatheSound();
-        this.character.speedY = +28;
+        this.character.speedY = 28;
     }
     /** Handles the character getting hurt by an enemy. */
     pepeGetHurt() {
@@ -192,8 +191,8 @@ class World {
     collisionFromAbove(boss) {
         world.isFromTop = false;
         boss.hit();
-        this.character.speedY = 28; 
-        this.endbossBar.setPercentage(boss.energy); 
+        this.character.speedY = 28;
+        this.endbossBar.setPercentage(boss.energy);
     }
     /** Handles the character getting hurt by the endboss (not from above). */
     collisionIsntFromAbove() {
@@ -281,7 +280,7 @@ class World {
         setInterval(() => {
             if (this.keyboard.D && this.character.bottles > 0) {
                 let bottle = new ThrowableObjects(this.character.x + 50, this.character.y + 100);
-                bottle.otherDirection = this.character.otherDirection; 
+                bottle.otherDirection = this.character.otherDirection;
                 this.throwableObjects.push(bottle);
                 this.character.bottles--;
                 this.bottleBar.setPercentage(this.character.bottles);
@@ -319,7 +318,7 @@ class World {
      * Draws an array of movable objects to the map.
      * @param {Array<Object>} objects Array of game objects to draw.
      */
-    addObjectsToMap(objects) { 
+    addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         });
@@ -376,7 +375,7 @@ class World {
      * @param {HTMLElement} endScreen The end screen element.
      * @param {HTMLElement} startImg The start image wrapper element.
      */
-    lostTheGame(endScreen, startImg) { 
+    lostTheGame(endScreen, startImg) {
         endScreen.classList.remove("start-container");
         endScreen.classList.add("end-container");
         startImg.style.boxShadow = 'none';

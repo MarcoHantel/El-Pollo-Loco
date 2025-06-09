@@ -207,7 +207,7 @@ class Endboss extends MovablePobject {
                 return;
             }
             if (i < this.IMAGES_DEAD.length) {
-                namiationEnbossDead(i);
+                this.namiationEnbossDead(i);
             } else {
                 clearInterval(this.deathAnimationInterval);
                 this.animationPaused = true; // Danach Animation anhalten

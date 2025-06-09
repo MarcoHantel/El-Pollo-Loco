@@ -1,15 +1,34 @@
+/**
+ * Represents the playable character in the game (Pepe).
+ * Inherits from {@link MovablePobject}.
+ */
 class Character extends MovablePobject {
 
+    /** Starting X coordinate. */
     x = 120;
-    y = 90;
+
+    /** Starting Y coordinate. */
+    y = 20;
+
+    /** Movement speed of the character. */
     speed = 6;
+
+    /** Height of the character. */
     height = 280;
+
+    /** Width of the character. */
     width = 130;
+
+    /** Sound object containing audio for actions. */
     sound;
-    world; //brauch ich die?
-    idleCounter = 0; //NEW
 
+    /** Reference to the world where the character moves. */
+    world;
 
+    /** Counter for inactivity used to control the idle animation. */
+    idleCounter = 0;
+
+    /** Images for walking animation. */
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -19,6 +38,7 @@ class Character extends MovablePobject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
 
+    /** Images for jumping animation. */
     IMAGES_JUMPING = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
@@ -31,12 +51,14 @@ class Character extends MovablePobject {
         'img/2_character_pepe/3_jump/J-39.png'
     ];
 
+    /** Images for hurt animation. */
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
     ];
 
+    /** Images for dead animation. */
     IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -47,7 +69,8 @@ class Character extends MovablePobject {
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
-    IMAGES_SLEEP = [
+    /** Images for idle animation. */
+    IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
         'img/2_character_pepe/1_idle/idle/I-3.png',
@@ -60,6 +83,7 @@ class Character extends MovablePobject {
         'img/2_character_pepe/1_idle/idle/I-10.png',
     ];
 
+    /** Images for long idle/sleep animation. */
     IMAGES_SLEEP_LONG = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -72,92 +96,91 @@ class Character extends MovablePobject {
         'img/2_character_pepe/1_idle/long_idle/I-19.png'
     ];
 
+    /** Collision offsets. */
     offset = {
-        top: 50,
-        left: 20,
-        right: 20,
-        bottom: 5
+        top: 100,
+        left: 25,
+        right: 25,
+        bottom: 5        
     };
 
     constructor() {
-
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_SLEEP_LONG);
-        this.loadImages(this.IMAGES_SLEEP);
+        this.loadImages(this.IMAGES_IDLE);
         this.sound = sound;
         this.applyGravity();
         this.animate();
-        this.startIdleCounter(); //NEW
+        this.startIdleCounter();        
     }
 
-    // Pepe is moving
     animate() {
         setInterval(() => this.checkMovePepe(), 1000 / 60);
         setInterval(() => this.checkAnimationPepe(), 1000 / 10);
-    };
+    }
 
     checkMovePepe() {
         let moved = false;
-        if (this.world.isPaused) { // prüft ob die Anwendung pausiert wurde (siehe world.class.js und game.js pausGame() und startGame() )
-            return
+        if (this.world.isPaused) { 
+            return;
         } else {
             if (this.canMoveRight())
                 this.pepeMoveRight();
-            if (this.canMoveLeft()) // wenn x größer ist als 0 läuft Pepe aus dem Bildschirm 
+            if (this.canMoveLeft()) 
                 this.pepeMoveLeft();
             if (this.canJump())
                 this.jump();
             moved = true;
             if (moved) {
                 this.lastMove = new Date().getTime();
-            } this.world.camera_x = -this.x + 100; // verschieben der Map/Background +100 verschiebe ich das noch, damit Pepe nicht am Rand steht
+            }
+            this.world.camera_x = -this.x + 100;
         }
     }
 
     canMoveRight() {
-        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x * 2
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x * 2;
     }
 
     pepeMoveRight() {
         this.otherDirection = false;
         this.moveRight();
         this.moved = true;
-        this.idleCounter = 0; //NEW
+        this.idleCounter = 0; 
     }
 
     canMoveLeft() {
-        return this.world.keyboard.LEFT && this.x > 0
+        return this.world.keyboard.LEFT && this.x > 0;
     }
 
     pepeMoveLeft() {
         this.otherDirection = true;
         this.moveLeft();
         this.moved = true;
-        this.idleCounter = 0; //NEW
+        this.idleCounter = 0; 
     }
 
     canJump() {
-        return this.world.keyboard.SPACE && !this.isAboveGround()
+        return this.world.keyboard.SPACE && !this.isAboveGround();
     }
 
     checkAnimationPepe() {
-        if (this.world.isPaused) { // prüft ob die Anwendung pausiert wurde (siehe world.class.js und game.js pausGame() und startGame() )
-            return
+        if (this.world.isPaused) {
+            return;
         } else {
-
             if (this.dead()) {
                 this.animationPepeDead();
                 this.animationGameOver();
-            } else if (this.idleCounter > 14) { //schicke Pepe nach 8 Sekunden in den Schlaf 
-                this.animationPepeSleep();
-            } else if (this.idleCounter > 8) { //schicke Pepe nach 15 Sekunden in den Schlaf 
-                this.animationPepeIsSleepy();
             } else if (this.isHurt()) {
                 this.animationPepeHurt();
+            } else if (this.idleCounter > 14) { 
+                this.animationPepeSleep();
+            } else if (this.idleCounter > 0.1) {
+                this.animationPepeIsIdle();
             } else if (this.isAboveGround()) {
                 this.animationPepeJump();
             } else if (this.isPepeMoving()) {
@@ -170,22 +193,16 @@ class Character extends MovablePobject {
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
             pauseGame();
-        }, 1000); // Nach 1 Sekunde pausieren
+        }, 1000); 
     }
 
-    animationPepeIsSleepy() {
-        this.playAnimation(this.IMAGES_SLEEP); // Schlafanimation1
+    animationPepeIsIdle() {
+        this.playAnimation(this.IMAGES_IDLE); 
         this.sound.audioPepeSleep.pause();
-        if (this.world.soundPlaying) {
-            this.sound.audioPepeYawning.play();
-        } else {
-            this.sound.audioPepeYawning.pause();
-        }
     }
 
     animationPepeSleep() {
-        this.playAnimation(this.IMAGES_SLEEP_LONG); // Schlafanimation2
-        this.sound.audioPepeYawning.pause(); 
+        this.playAnimation(this.IMAGES_SLEEP_LONG);
         if (this.world.soundPlaying) {
             this.sound.audioPepeSleep.play();
         } else {
@@ -196,7 +213,7 @@ class Character extends MovablePobject {
     animationGameOver() {
         setTimeout(() => {
             this.world.gameOverScreen('lose');
-        }, 2000); // Nach 2 Sekunden Game Over anzeigen
+        }, 2000);
     }
 
     animationPepeHurt() {
@@ -204,7 +221,7 @@ class Character extends MovablePobject {
         if (this.world.soundPlaying) {
             this.sound.audioPepeHurt.play();
         } else {
-            this.sound.audioPepeHurt.pause()
+            this.sound.audioPepeHurt.pause();
         }
     }
 
@@ -219,15 +236,12 @@ class Character extends MovablePobject {
     }
 
     isPepeMoving() {
-        return this.world.keyboard.RIGHT || this.world.keyboard.LEFT
+        return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
     }
 
     animationPepeMove() {
         this.playAnimation(this.IMAGES_WALKING);
-        this.sound.audioPepeSleep.pause(); // hier wird der Sound angehalten
-        this.sound.audioPepeSleep.currentTime = 0; // Wieder zurücksetzen
-
-        this.sound.audioPepeYawning.pause(); // hier wird der Sound angehalten
-        this.sound.audioPepeYawning.currentTime = 0; // Wieder zurücksetzen
+        this.sound.audioPepeSleep.pause(); 
+        this.sound.audioPepeSleep.currentTime = 0; 
     }
 }

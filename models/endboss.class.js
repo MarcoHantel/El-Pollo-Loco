@@ -1,20 +1,47 @@
+/**
+ * Represents the Endboss enemy character in the game.
+ * The Endboss has different animation states (alert, walk, hurt, dead),
+ * reacts when the character enters certain zones, and controls the game end.
+ */
 class Endboss extends MovablePobject {
 
+    /** Y position of the Endboss */
     y = 80;
+
+    /** X position where Endboss starts */
     x = 1500;
+
+    /** Dimensions of the Endboss */
     height = 380;
     width = 230;
+
+    /** Movement speed of the Endboss */
     speed = 5;
+
+    /** Reference to sound effects */
     sound;
+
+    /** Flag to track if the Endboss has started playing */
     endbossPlayed = false;
+
+    /** Flag to track if alert animation is currently active */
     alertActive = false;
+
+    /** Current X position of the character */
     pepeX;
+
+    /** Flag to check if the Endboss has been killed */
     bossKilled = false;
+
+    /** Minimum and maximum x-coordinates for Endboss zone */
     xMin = 900;
     xMax = 1600;
+
+    /** Activation zone boundaries for triggering Endboss alert */
     bossZoneLeft = 1550;
     bossZoneRight = 700;
 
+    /** Image arrays for Endboss animation states */
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -45,6 +72,7 @@ class Endboss extends MovablePobject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    /** Collision box offset */
     offset = {
         top: 150,
         left: 10,
@@ -52,6 +80,9 @@ class Endboss extends MovablePobject {
         bottom: 5
     };
 
+    /**
+     * Creates an instance of Endboss and preloads images.
+     */
     constructor() {
         super().loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_WALK);
@@ -62,14 +93,14 @@ class Endboss extends MovablePobject {
         this.animate();
     }
 
-    // Lauf-Animation kontinuierlich läuft
+    /**
+     * Starts main animation intervals for the Endboss.
+     * Handles alert detection, damage, and death transitions.
+     */
     animate() {
         setInterval(() => {
-            if (world.isPaused) {
-                return
-            } else {
-                this.checkEnbossAlerting()
-            }
+            if (world.isPaused) return;
+            this.checkEnbossAlerting();
         }, 200);
 
         setInterval(() => {
@@ -85,21 +116,29 @@ class Endboss extends MovablePobject {
         }, 64);
     }
 
+    /**
+     * Checks if the character enters the alert zone and starts alert animation.
+     */
     checkEnbossAlerting() {
         if (this.checkEnterEndbosszone900()) {
-            this.alertActive = true; // Verhindert mehrfaches Starten
+            this.alertActive = true;
+
             let animationInterval = setInterval(() => {
-                this.playAnimation(this.IMAGES_ALERT); // boss ALERT
+                this.playAnimation(this.IMAGES_ALERT);
             }, 200);
+
             let checkInterval = setInterval(() => {
-                if (this.checkEnterEndbosszone1200()) { // Wenn Pepe unter 1200 oder Boss beworfen wird dann Angriff
-                    this.clearIntervalForBoss(animationInterval, checkInterval)
-                    this.startBossAnimationWalk(); // Startet die nächste Animation
+                if (this.checkEnterEndbosszone1200()) {
+                    this.clearIntervalForBoss(animationInterval, checkInterval);
+                    this.startBossAnimationWalk(); // <-- This method needs to be defined somewhere
                 }
-            }, 200); // Prüft alle 200ms, ob Charakter >1200px ist
+            }, 200);
         }
     }
 
+    /**
+     * Plays the hurt animation and sound if available.
+     */
     animationEndbossGetHurt() {
         this.playAnimation(this.IMAGES_HURT);
         if (world.soundPlaying) {
@@ -109,26 +148,47 @@ class Endboss extends MovablePobject {
         }
     }
 
+    /**
+     * Checks if the character enters the 900px zone to start alerting.
+     * @returns {boolean}
+     */
     checkEnterEndbosszone900() {
-        return world.character.x > 900 && !this.alertActive
+        return world.character.x > 900 && !this.alertActive;
     }
 
+    /**
+     * Checks if the character has entered the 1200px zone or Endboss is hurt.
+     * @returns {boolean}
+     */
     checkEnterEndbosszone1200() {
-        return world.character.x > 1200 || this.isHurt()
+        return world.character.x > 1200 || this.isHurt();
     }
 
+    /**
+     * Clears both the alert animation and zone check intervals.
+     * @param {number} animationInterval - ID of the alert animation interval.
+     * @param {number} checkInterval - ID of the zone check interval.
+     */
     clearIntervalForBoss(animationInterval, checkInterval) {
-        clearInterval(animationInterval); // Stoppt die ALERT-Animation
-        clearInterval(checkInterval); // Beendet die Überprüfung
+        clearInterval(animationInterval);
+        clearInterval(checkInterval);
     }
 
+    /**
+     * Stops all Endboss movement and animation after death.
+     * @param {number} deadAnimationDuration - Time to wait before stopping intervals.
+     */
     stopBossAnimation(deadAnimationDuration) {
         setTimeout(() => {
-            clearInterval(this.bossWalkInterval);
+            clearInterval(this.bossWalkInterval);  // These should be defined when walk starts
             clearInterval(this.bossMoveInterval);
         }, deadAnimationDuration);
     }
 
+    /**
+     * Pauses the game and displays the "win" screen after a delay.
+     * @param {number} deadAnimationDuration - Time to wait before showing win screen.
+     */
     stopTheGame(deadAnimationDuration) {
         setTimeout(() => {
             pauseGame();
@@ -136,6 +196,9 @@ class Endboss extends MovablePobject {
         }, deadAnimationDuration + 5000);
     }
 
+    /**
+     * Plays the death animation frame by frame, then pauses all animations.
+     */
     playDeathAnimation() {
         let i = 0;
         this.deathAnimationInterval = setInterval(() => {
@@ -157,6 +220,4 @@ class Endboss extends MovablePobject {
         this.img = this.imageCash[path];
         i++;
     }
-};
-
-
+}

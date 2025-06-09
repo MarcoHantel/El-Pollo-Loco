@@ -1,6 +1,14 @@
+/**
+ * Represents the status bar for the Endboss's health.
+ * Inherits from DrawableObject.
+ */
 class EndbossBar extends DrawableObject {
 
-    ENBOSS_BAR_IMAG = [
+    /**
+     * Image paths for different health levels (0% to 100%) of the Endboss.
+     * @type {string[]}
+     */
+    ENDBOSS_BAR_IMAGES = [
         'img/7_statusbars/2_statusbar_endboss/green/green0.png',
         'img/7_statusbars/2_statusbar_endboss/green/green20.png',
         'img/7_statusbars/2_statusbar_endboss/green/green40.png',
@@ -9,38 +17,45 @@ class EndbossBar extends DrawableObject {
         'img/7_statusbars/2_statusbar_endboss/green/green100.png'
     ];
 
+    /**
+     * Current health percentage of the Endboss (0–100).
+     * @type {number}
+     */
     percentage = 100;
 
+    /**
+     * Constructs the EndbossBar with default full health.
+     */
     constructor() {
         super().loadImage('img/7_statusbars/2_statusbar_endboss/green/green100.png');
-        this.loadImages(this.ENBOSS_BAR_IMAG)
+        this.loadImages(this.ENDBOSS_BAR_IMAGES);
         this.width = 180;
         this.height = 45;
-        this.x = 510; // platzierung des Images
+        this.x = 510;
         this.y = 0;
-        this.setPercentage(100)
+        this.setPercentage(100);
     }
 
+    /**
+     * Updates the health bar based on the given percentage.
+     * @param {number} percentage - Health percentage (0 to 100).
+     */
     setPercentage(percentage) {
-        this.percentage = percentage; // => 0....5
-        let path = this.ENBOSS_BAR_IMAG[this.resolveImageIndex()]; // path = array bild[0]
-        this.img = this.imageCash[path]; // Bild aus dem iageCash laden laden
+        this.percentage = percentage;
+        const path = this.ENDBOSS_BAR_IMAGES[this.resolveImageIndex()];
+        this.img = this.imageCash[path];
     }
 
+    /**
+     * Determines which image index to use based on the percentage.
+     * @returns {number} Index of the image to display.
+     */
     resolveImageIndex() {
-        if (this.percentage == 100) {
-            return 5;
-        } else if (this.percentage > 80) {
-            return 4;
-        } else if (this.percentage > 60) {
-            return 3;
-        } else if (this.percentage > 40) {
-            return 2;
-        } else if (this.percentage > 20) {
-            return 1;
-        } else {
-            return 0;
-        }
-    };
-
+        if (this.percentage >= 100) return 5;
+        if (this.percentage > 80) return 4;
+        if (this.percentage > 60) return 3;
+        if (this.percentage > 40) return 2;
+        if (this.percentage > 20) return 1;
+        return 0;
+    }
 }

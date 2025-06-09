@@ -7,6 +7,7 @@
     <title>El pollo loco</title>
     <link rel="icon" type="image/png" sizes="16x16" href="img/11_favicon/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-responsive.css">
 
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -29,50 +30,80 @@
     <script src="models/status-bar-endboss.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="script/game.js"></script>
-</head>
 
+</head>
 <body>
+    <div id="turnDevice" class="deviceBlcker none"></div>
     <div id="impressumPage" class="impressum-page none"></div>
     <div id="backgroundImgContainer" class="background ">
         <div id="start-overlay" class="start-container">
-            <div class="start-img-wrapper">
-                <button class="start-button" onclick="upadteScreen()">
-                    <h2>Comienza el juego</h2>
-                </button>
-                <img id="imgCanvas" class="start-image-canvas" src="img/9_intro_outro_screens/start/startscreen_1.png">
+            <div id="startOverlayWrapper" class="start-img-wrapper">
+
+                <h1 class="">El pollo loco</h1>
+                <div class="button-wrapper">
+                    <button class="start-button" onclick="upadteScreen()">
+                        <h2>Comienza el juego</h2>
+                    </button>
+                    <button class="start-button" onclick="reloadPage()">
+                        <h2>Página de inicio</h2>
+                    </button>
+                </div>
+                <div class="game-instructions">
+                    Steuere Pepe durch die Level und besiege den Endgegner El gran pollo!<br>
+                    Steuerung:<br>
+                    Pfeiltasten links/rechts: Bewege Pepe nach links oder rechts.
+                    <ul>
+                        <li class="liste"><img class="how-to-play-icons" src="img/10_icon/pointer_left_white.png">Bewege
+                            Pepe nach
+                            links</li>
+                        <li class="liste"><img class="how-to-play-icons"
+                                src="img/10_icon/pointer_right_white.png">Bewege Pepe nach
+                            rechts</li>
+                    </ul>
+                    Spingen und Werfen:
+                    <ul>
+                        <li class="liste"><img class="how-to-play-icons" src="img/10_icon/space_white.png">Leertaste
+                            (Space): Springe.</li>
+
+                        <li class="liste"><img class="how-to-play-icons" src="img/10_icon/letter_d_white.png">Taste D:
+                            Wirf eine Flasche.</li>
+                    </ul>
+                    Ziel:
+                    Besiege El gran pollo und alle anderen Gegner!
+                    Gegner kannst du besiegen, indem du:
+                    <ul>
+                        <li class="liste"> Auf sie draufspringst</li>
+                        <li class="liste">Sie mit Flaschen bewirfst</li>
+                    </ul><br>
+                    Viel Spaß beim Spielen!
+                </div>
             </div>
         </div>
+
         <h1 class="">El pollo loco</h1>
         <div id="controller" class="sound-icon-container">
             <img onclick="soundOn()" class="sound-icon" src="img/10_icon/volume.png">
             <img onclick="soundOff()" class="sound-icon" src="img/10_icon/mute.png">
             <img onclick="startGame()" class="sound-icon" src="img/10_icon/play-button.png">
             <img onclick="pauseGame()" class="sound-icon" src="img/10_icon/pause.png">
-        </div>
-        <canvas class="none" id="canvas" width="720" height="480"></canvas>
-        <div id="howToPlayContainer" class="how-to-play sound-icon-container">
-            <span class="play-text">move:</span>
-            <img class="how-to-play-icons" src="img/10_icon/pointer-left.png">
-            <img class="how-to-play-icons" src="img/10_icon/pointer-right.png">
-            <span class="play-text">jump:</span>
-            <img class="how-to-play-icons" src="img/10_icon/space.png">
-            <span class="play-text">throw bottles:</span>
-            <img class="how-to-play-icons" src="img/10_icon/letter-d.png">
-            <span class="play-text">full screen:</span>
             <img onclick="fullScreen()" class="how-to-play-icons icon-fullscreen" src="img/10_icon/full-size.png">
         </div>
-        <div id="mobilePlayPad" class="mobile-play">
+
+        <canvas class="none" id="canvas" width="720" height="480"></canvas>
+
+        <div id="mobilePlayPad" class="mobile-play none">
             <div class="mobile-play-left">
-                <img id="turnLeft" class="how-to-play-icons" src="img/10_icon/pointer-left.png">
-                <img id="turnRight" class="how-to-play-icons" src="img/10_icon/pointer-right.png">
+                <img id="turnLeft" class="how-to-play-icons" src="img/10_icon/pointer_left_white.png">
+                <img id="turnRight" class="how-to-play-icons" src="img/10_icon/pointer_right_white.png">
             </div>
             <div class="mobile-play-right">
-                <img id="jumpUp" class="how-to-play-icons" src="img/10_icon/pointer-up.png">
-                <img id="throwObject" class="how-to-play-icons" src="img/10_icon/bottle.png">
+                <img id="jumpUp" class="how-to-play-icons" src="img/10_icon/pointer_up_white.png">
+                <img id="throwObject" class="how-to-play-icons" src="img/10_icon/bottle_white.png">
             </div>
         </div>
+
     </div>
-    <footer>
+    <footer id="footer-class">
         <button onclick="openImpressum()" id="impressumButton" class="impressum-button">Impressum</button>
     </footer>
 </body>

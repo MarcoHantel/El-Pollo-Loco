@@ -1,4 +1,3 @@
-
 @media only screen and (max-width: 760px) {
 
     .start-button {
@@ -52,8 +51,25 @@
     }
 }
 
-@media (min-width: 1180px){
-        .mobile-play {
+@media (min-width: 1180px) {
+
+    canvas {
+        width: 100%;
+    }
+
+    canvas {
+        outline: none;
+    }
+
+    h1 {
+        display: none;
+    }
+
+    .how-to-play {
+        display: none;
+    }
+
+    .sound-icon-container {
         display: none;
     }
 }

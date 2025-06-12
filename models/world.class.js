@@ -287,33 +287,53 @@ class World {
             }
         }, 200);
     }
-    /**
-     * Main game drawing loop; clears canvas and draws all game objects.
-     * Respects camera offset for scrolling.
-     */
-    draw() {
-        if (this.isPaused) return;
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.clouds);
-        this.addToMap(this.character);
-        this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusBar);
-        this.addToMap(this.coinBar);
-        this.addToMap(this.bottleBar);
-        this.addToMap(this.endbossBar);
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.bottles);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.throwableObjects);
-        this.ctx.translate(-this.camera_x, 0);
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
-    }
+/**
+ * Main game drawing loop.
+ * Clears the canvas, draws all game elements, and handles camera scrolling.
+ * Uses requestAnimationFrame for a smooth, continuous rendering loop.
+ * Skips rendering when the game is paused.
+ */
+draw() {
+    if (this.isPaused) return;
+    this.drawEnvironments();
+    this.drawItemBar();
+    this.drawGameItems();
+    this.ctx.translate(-this.camera_x, 0);
+
+    requestAnimationFrame(() => this.draw());
+}
+/**
+ * Draws the background environment, including sky, clouds, and the main character.
+ * Clears the canvas before drawing and applies horizontal camera offset.
+ */
+drawEnvironments() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.translate(this.camera_x, 0);
+    this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.clouds);
+    this.addToMap(this.character);
+}
+/**
+ * Draws the item/status bars including health, coins, bottles, and endboss status.
+ * Translates the canvas temporarily to render UI at a fixed screen position.
+ */
+drawItemBar() {
+    this.ctx.translate(-this.camera_x, 0);
+    this.addToMap(this.statusBar);
+    this.addToMap(this.coinBar);
+    this.addToMap(this.bottleBar);
+    this.addToMap(this.endbossBar);
+    this.ctx.translate(this.camera_x, 0);
+}
+/**
+ * Draws interactive game objects like coins, bottles, enemies, and throwable items.
+ */
+drawGameItems() {
+    this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.bottles);
+    this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.throwableObjects);
+}
     /**
      * Draws an array of movable objects to the map.
      * @param {Array<Object>} objects Array of game objects to draw.

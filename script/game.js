@@ -30,7 +30,7 @@ function upadteScreen() {
     document.getElementById('start-overlay').classList.remove("end-container");
     document.getElementById('start-overlay').classList.remove("end-container-win");
     init();
-    startGame(); 
+    startGame();
 }
 
 /**
@@ -46,6 +46,9 @@ function fullScreen() {
 function fullScreenEnd() {
     if (document.fullscreenElement) {
         document.exitFullscreen();
+    } else if (document.fullscreenElement && window.screen.width > 1179) {
+        let mobileplay = document.getElementById('mobilePlayPad');
+        mobileplay.classList.add("z-index")
     }
 }
 
@@ -54,7 +57,7 @@ function fullScreenEnd() {
  */
 function soundOn() {
     soundPlaying = world.soundPlaying = true;
-    world.checkSound(soundPlaying); 
+    world.checkSound(soundPlaying);
     saveToLocalStorage(true);
 }
 
@@ -63,7 +66,7 @@ function soundOn() {
  */
 function soundOff() {
     soundPlaying = world.soundPlaying = false;
-    world.checkSound(soundPlaying); 
+    world.checkSound(soundPlaying);
     saveToLocalStorage(false);
 }
 
@@ -88,14 +91,14 @@ function reloadPage() {
 function startGame() {
     world.isPaused = false;
     world.draw();
-    gameIsRunning = true; 
+    gameIsRunning = true;
 }
 
 /**
  * Pauses the game by setting the world to paused state and redrawing.
  */
 function pauseGame() {
-    if (gameIsRunning) { 
+    if (gameIsRunning) {
         world.isPaused = true;
         world.draw();
     }
@@ -137,10 +140,18 @@ function openImpressum() {
  * Updates the content of the impressum modal with HTML.
  */
 function updateImpressumContent() {
-    let impressum = document.getElementById('impressumPage');
-    impressum.classList.remove('none');
-    impressum.innerHTML = returnImpressumHTML();
+    const impressum = document.getElementById('impressumPage');
+    if (impressum) {
+        impressum.classList.remove('none');
+        impressum.innerHTML = returnImpressumHTML();
+    }
 }
+
+// function updateImpressumContent() {
+//     let impressum = document.getElementById('impressumPage');
+//     impressum.classList.remove('none');
+//     impressum.innerHTML = returnImpressumHTML();
+// }
 
 /**
  * Shows the play buttons for mobile devices.
@@ -155,22 +166,22 @@ function addPlaybuttonsForMobile() {
  * Returns the HTML string for the impressum content.
  * @returns {string} HTML content for the impressum.
  */
-function returnImpressumHTML() {
-    return /*html*/`
-        <div class="impressum-wrapper">
-            <h2>Impressum</h2>
-            <div class="text-impressum">
-                Impressum Angaben gemäß § 5 TMG Verantwortlich für den Inhalt dieser Seite:
-                Marco Hantel Max-MustermannStr. 99 81541 München E-Mail: <br>mh@test.de<br>
-                Für die Grafiken verantwortlich:
-                <a href="https://developerakademie.com/">Developer Akademie GmbH</a>
-                Tassiloplatz 25 81541 München HRB 269921, AG München Datenschutz:
-                Diese Seite erhebt keine personenbezogenen Daten und verwendet keine Cookies.
-                <button onclick="closeImpressum()" class="close-impressum-button">Schließen</button>
-            </div>
-        </div>
-    `;
-}
+// function returnImpressumHTML() {
+//     return /*html*/`
+//         <div class="impressum-wrapper">
+//             <h2>Impressum</h2>
+//             <div class="text-impressum">
+//                 Impressum Angaben gemäß § 5 TMG Verantwortlich für den Inhalt dieser Seite:
+//                 Marco Hantel Flurstr. 12, 82194 Gröbenzell E-Mail: <br>hantelmarco[at]gmail.com<br>
+//                 Für die Grafiken verantwortlich:
+//                 <a href="https://developerakademie.com/">Developer Akademie GmbH</a>
+//                 Tassiloplatz 25 81541 München HRB 269921, AG München Datenschutz:
+//                 Diese Seite erhebt keine personenbezogenen Daten und verwendet keine Cookies.
+//                 <button onclick="closeImpressum()" class="close-impressum-button">Schließen</button>
+//             </div>
+//         </div>
+//     `;
+// }
 
 /**
  * Handles the device orientation and screen size to display a blocker page if in portrait or small screen.

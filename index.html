@@ -29,6 +29,7 @@
     <script src="models/status-bar-bottles.class.js"></script>
     <script src="models/status-bar-endboss.class.js"></script>
     <script src="levels/level1.js"></script>
+    <script src="script/templates.js"></script>     <!-- NEW -->
     <script src="script/game.js"></script>
 
 </head>
@@ -42,10 +43,10 @@
                 <h1 class="">El pollo loco</h1>
                 <div class="button-wrapper">
                     <button class="start-button" onclick="upadteScreen()">
-                        <h2>Comienza el juego</h2>
+                        <h2>los gehts</h2>
                     </button>
                     <button class="start-button" onclick="reloadPage()">
-                        <h2>Página de inicio</h2>
+                        <h2>neustart</h2>
                     </button>
                 </div>
                 <div class="game-instructions">
@@ -96,12 +97,14 @@
                 <img id="turnLeft" class="how-to-play-icons" src="img/10_icon/pointer_left_white.png">
                 <img id="turnRight" class="how-to-play-icons" src="img/10_icon/pointer_right_white.png">
             </div>
+            <div>
+                <img onclick="reloadPage()" class="how-to-play-icons" src="img/10_icon/refresh_arrow_white.png">
+            </div>
             <div class="mobile-play-right">
                 <img id="jumpUp" class="how-to-play-icons" src="img/10_icon/pointer_up_white.png">
                 <img id="throwObject" class="how-to-play-icons" src="img/10_icon/bottle_white.png">
             </div>
         </div>
-
     </div>
     <footer id="footer-class">
         <button onclick="openImpressum()" id="impressumButton" class="impressum-button">Impressum</button>

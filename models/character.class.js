@@ -103,7 +103,9 @@ class Character extends MovablePobject {
         right: 25,
         bottom: 5        
     };
-
+/**
+     * Creates a new Character instance and initializes animation and gravity.
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -118,34 +120,44 @@ class Character extends MovablePobject {
         this.startIdleCounter();        
     }
 
+    /**
+     * Starts the game loops for character movement and animation.
+     */
     animate() {
         setInterval(() => this.checkMovePepe(), 1000 / 60);
         setInterval(() => this.checkAnimationPepe(), 1000 / 10);
     }
 
+    /**
+     * Handles movement logic based on keyboard input.
+     */
     checkMovePepe() {
         let moved = false;
-        if (this.world.isPaused) { 
-            return;
-        } else {
-            if (this.canMoveRight())
-                this.pepeMoveRight();
-            if (this.canMoveLeft()) 
-                this.pepeMoveLeft();
-            if (this.canJump())
-                this.jump();
-            moved = true;
-            if (moved) {
-                this.lastMove = new Date().getTime();
-            }
-            this.world.camera_x = -this.x + 100;
-        }
+        if (this.world.isPaused) return;
+
+        if (this.canMoveRight())
+            this.pepeMoveRight();
+        if (this.canMoveLeft()) 
+            this.pepeMoveLeft();
+        if (this.canJump())
+            this.jump();
+
+        moved = true;
+        if (moved) this.lastMove = new Date().getTime();
+        this.world.camera_x = -this.x + 100;
     }
 
+    /**
+     * Checks if the character can move to the right.
+     * @returns {boolean} True if the right key is pressed and within level bounds.
+     */
     canMoveRight() {
         return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x * 2;
     }
 
+    /**
+     * Moves the character to the right and updates state.
+     */
     pepeMoveRight() {
         this.otherDirection = false;
         this.moveRight();
@@ -153,10 +165,17 @@ class Character extends MovablePobject {
         this.idleCounter = 0; 
     }
 
+    /**
+     * Checks if the character can move to the left.
+     * @returns {boolean} True if the left key is pressed and not at the far left.
+     */
     canMoveLeft() {
         return this.world.keyboard.LEFT && this.x > 0;
     }
 
+    /**
+     * Moves the character to the left and updates state.
+     */
     pepeMoveLeft() {
         this.otherDirection = true;
         this.moveLeft();
@@ -164,31 +183,39 @@ class Character extends MovablePobject {
         this.idleCounter = 0; 
     }
 
+    /**
+     * Checks if the character is allowed to jump.
+     * @returns {boolean} True if space is pressed and character is on the ground.
+     */
     canJump() {
         return this.world.keyboard.SPACE && !this.isAboveGround();
     }
 
+    /**
+     * Handles the logic to choose the correct animation state.
+     */
     checkAnimationPepe() {
-        if (this.world.isPaused) {
-            return;
-        } else {
-            if (this.dead()) {
-                this.animationPepeDead();
-                this.animationGameOver();
-            } else if (this.isHurt()) {
-                this.animationPepeHurt();
-            } else if (this.idleCounter > 14) { 
-                this.animationPepeSleep();
-            } else if (this.idleCounter > 0.1) {
-                this.animationPepeIsIdle();
-            } else if (this.isAboveGround()) {
-                this.animationPepeJump();
-            } else if (this.isPepeMoving()) {
-                this.animationPepeMove();
-            }
+        if (this.world.isPaused) return;
+
+        if (this.dead()) {
+            this.animationPepeDead();
+            this.animationGameOver();
+        } else if (this.isHurt()) {
+            this.animationPepeHurt();
+        } else if (this.idleCounter > 14) { 
+            this.animationPepeSleep();
+        } else if (this.idleCounter > 0.1) {
+            this.animationPepeIsIdle();
+        } else if (this.isAboveGround()) {
+            this.animationPepeJump();
+        } else if (this.isPepeMoving()) {
+            this.animationPepeMove();
         }
     }
 
+    /**
+     * Plays the death animation and pauses the game after a short delay.
+     */
     animationPepeDead() {
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
@@ -196,11 +223,17 @@ class Character extends MovablePobject {
         }, 1000); 
     }
 
+    /**
+     * Plays the idle animation.
+     */
     animationPepeIsIdle() {
         this.playAnimation(this.IMAGES_IDLE); 
         this.sound.audioPepeSleep.pause();
     }
 
+    /**
+     * Plays the long idle (sleep) animation.
+     */
     animationPepeSleep() {
         this.playAnimation(this.IMAGES_SLEEP_LONG);
         if (this.world.soundPlaying) {
@@ -210,12 +243,18 @@ class Character extends MovablePobject {
         }
     }
 
+    /**
+     * Triggers the game over screen after the death animation finishes.
+     */
     animationGameOver() {
         setTimeout(() => {
             this.world.gameOverScreen('lose');
         }, 2000);
     }
 
+    /**
+     * Plays the hurt animation and associated sound.
+     */
     animationPepeHurt() {
         this.playAnimation(this.IMAGES_HURT);
         if (this.world.soundPlaying) {
@@ -225,6 +264,9 @@ class Character extends MovablePobject {
         }
     }
 
+    /**
+     * Plays the jump animation and sound effect.
+     */
     animationPepeJump() {
         this.playAnimation(this.IMAGES_JUMPING);
         this.sound.audioPepeSleep.pause();
@@ -235,10 +277,17 @@ class Character extends MovablePobject {
         }
     }
 
+    /**
+     * Checks if any horizontal movement key is currently pressed.
+     * @returns {boolean} True if LEFT or RIGHT is pressed.
+     */
     isPepeMoving() {
         return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
     }
 
+    /**
+     * Plays the walking animation and stops the sleep sound.
+     */
     animationPepeMove() {
         this.playAnimation(this.IMAGES_WALKING);
         this.sound.audioPepeSleep.pause(); 

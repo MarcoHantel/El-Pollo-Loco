@@ -216,9 +216,18 @@ class Endboss extends MovablePobject {
         }, 300);
     }
 
-    namiationEnbossDead(i) {
-        let path = this.IMAGES_DEAD[i];
-        this.img = this.imageCash[path];
+/**
+ * Displays a specific frame of the endboss death animation by index.
+ *
+ * This method updates the currently displayed image (`this.img`) 
+ * to the corresponding frame from the `IMAGES_DEAD` array.
+ *
+ * @param {number} i - The index of the death animation frame to display.
+ *                     Should be within the bounds of the IMAGES_DEAD array.
+ */
+namiationEnbossDead(i) {
+    let path = this.IMAGES_DEAD[i];
+    this.img = this.imageCash[path];
+}
 
-    }
 }

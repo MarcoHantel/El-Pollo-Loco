@@ -20,3 +20,19 @@ function returnImpressumHTML() {
         </div>
     `;
 }
+
+/**
+ * Returns the HTML string for the device blocker page.
+ * @returns {string} HTML content for the blocker page.
+ */
+function returnBlockerPageHTML() {
+    return /*html*/`
+        <div class="blocker-wrapper blocker-position">
+            <h2 class="text-blocker">turn device</h2>
+            <div class="text-blocker">
+                <img src="img/10_icon/turnphone.png">
+                <p>Dieses Spiel funktioniert nur im Querformat!.</p>
+            </div>
+        </div>
+    `;
+}

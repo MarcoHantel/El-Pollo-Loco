@@ -26,7 +26,6 @@ class World {
     ctx;
     /** @type {Object} Keyboard input handler object. */
     keyboard;
-
     /** @type {Object} Sound manager containing audio elements. */
     sound;
     /** @type {boolean} Indicates whether sound is currently enabled (from localStorage). */
@@ -36,6 +35,7 @@ class World {
      * Note: In canvas coordinates, (0,0) is at the top-left corner.
      * @type {number} 
      */
+
     camera_x = 0;
     /** @type {boolean} Indicates if the game is currently paused. */
     isPaused = false;
@@ -44,6 +44,7 @@ class World {
      * @type {boolean} 
      */
     isFromTop = false;
+
     /**
      * Creates a new World instance.
      * @param {HTMLCanvasElement} canvas The canvas element where the game is rendered.
@@ -60,6 +61,7 @@ class World {
         this.checkCollisions();
         this.checkSound();
     }
+
     /**
      * Checks if sound should be played or paused.
      * @param {boolean} [soundPlaying] Optional flag to override current sound state.
@@ -81,44 +83,54 @@ class World {
             this.sound.audioPepeSleep.pause();
         }
     }
+
     /** Starts and loops the background music. */
     setBackgroundSound() {
         this.sound.audioBackround.loop = true;
         this.sound.audioBackround.play();
     }
+
     /** Plays the coin collection sound effect. */
     setCoinSound() {
         this.sound.audioGetCoin.play();
     }
+
     /** Plays the endboss hurt sound effect. */
     setEndBossSound() {
         this.sound.audioEndbossHurt.play();
     }
+
     /** Plays the bottle collection sound effect. */
     setBottleSound() {
         this.sound.audioGetBottle.play();
     }
+
     /** Plays the chicken death sound effect. */
     setChickenDeatheSound() {
         this.sound.audioChickenDeath.play();
     }
+
     /** Starts and loops the chicken sound effect. */
     setChickenSound() {
         this.sound.audioChicken.loop = true;
         this.sound.audioChicken.play();
     }
+
     /** Plays the game over sound effect for losing. */
     setGameOverSound() {
         this.sound.audioGameOver.play();
     }
+
     /** Plays the game over sound effect for winning. */
     setGameOverSoundWin() {
         this.sound.audioGameOverWin.play();
     }
+
     /** Sets a reference from the character back to this world instance. */
     setWorld() {
         this.character.world = this;
     }
+
     /** Initializes all collision checks for enemies, coins, bottles, throwables, and the boss. */
     checkCollisions() {
         this.collisionWithEnemy();
@@ -128,6 +140,7 @@ class World {
         this.collisionWithEndboss();
         this.collisionEnemyBottle();
     }
+
     /**
      * Periodically checks collisions between the character and normal enemies.
      * Detects whether character attacks from above or gets hurt.
@@ -149,6 +162,7 @@ class World {
             });
         }, 32);
     }
+
     /**
      * Handles the character attacking an enemy from above.
      * @param {Object} enemy Enemy object being attacked.
@@ -159,12 +173,14 @@ class World {
         if (this.soundPlaying) this.setChickenDeatheSound();
         this.character.speedY = 28;
     }
+
     /** Handles the character getting hurt by an enemy. */
     pepeGetHurt() {
         world.isFromTop = false;
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
     }
+
     /**
      * Periodically checks collisions between the character and the endboss.
      * Detects whether character attacks from above or gets hurt.
@@ -184,6 +200,7 @@ class World {
             }
         }, 32);
     }
+
     /**
      * Handles the character hitting the endboss from above.
      * @param {Endboss} boss The endboss object.
@@ -194,12 +211,14 @@ class World {
         this.character.speedY = 28;
         this.endbossBar.setPercentage(boss.energy);
     }
+
     /** Handles the character getting hurt by the endboss (not from above). */
     collisionIsntFromAbove() {
         world.isFromTop = false;
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
     }
+
     /**
      * Periodically checks collisions between throwable bottles and enemies or the endboss.
      * Ignores bottles that are not breaking or already broken.
@@ -222,6 +241,7 @@ class World {
             });
         }, 100);
     }
+
     /**
      * Handles the bottle hitting the endboss.
      * @param {Endboss} boss The endboss object.
@@ -234,6 +254,7 @@ class World {
         if (this.soundPlaying) this.setEndBossSound();
         bottle.break();
     }
+
     /**
      * Handles the bottle hitting a normal enemy.
      * @param {Object} enemy The enemy hit by the bottle.
@@ -244,6 +265,7 @@ class World {
         if (this.soundPlaying) this.setChickenDeatheSound();
         bottle.break();
     }
+
     /**
      * Periodically checks collisions between the character and coins to collect them.
      */
@@ -258,6 +280,7 @@ class World {
             });
         }, 200);
     }
+
     /**
      * Periodically checks collisions between the character and bottles to collect them.
      */
@@ -272,6 +295,7 @@ class World {
             });
         }, 200);
     }
+
     /**
      * Periodically checks if the player throws a bottle (presses 'D' key).
      * Throws a new bottle if the character has bottles left.
@@ -287,6 +311,7 @@ class World {
             }
         }, 200);
     }
+
 /**
  * Main game drawing loop.
  * Clears the canvas, draws all game elements, and handles camera scrolling.
@@ -302,6 +327,7 @@ draw() {
 
     requestAnimationFrame(() => this.draw());
 }
+
 /**
  * Draws the background environment, including sky, clouds, and the main character.
  * Clears the canvas before drawing and applies horizontal camera offset.
@@ -313,6 +339,7 @@ drawEnvironments() {
     this.addObjectsToMap(this.level.clouds);
     this.addToMap(this.character);
 }
+
 /**
  * Draws the item/status bars including health, coins, bottles, and endboss status.
  * Translates the canvas temporarily to render UI at a fixed screen position.
@@ -325,6 +352,7 @@ drawItemBar() {
     this.addToMap(this.endbossBar);
     this.ctx.translate(this.camera_x, 0);
 }
+
 /**
  * Draws interactive game objects like coins, bottles, enemies, and throwable items.
  */
@@ -334,6 +362,7 @@ drawGameItems() {
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
 }
+
     /**
      * Draws an array of movable objects to the map.
      * @param {Array<Object>} objects Array of game objects to draw.
@@ -343,6 +372,7 @@ drawGameItems() {
             this.addToMap(o);
         });
     }
+
     /**
      * Draws a single movable object on the canvas.
      * Handles flipping the image horizontally if needed.
@@ -357,6 +387,7 @@ drawGameItems() {
             this.flipImageBack(mo);
         }
     }
+
     /**
      * Flips the image horizontally to simulate character facing the other direction.
      * @param {Object} mo Movable object to flip.
@@ -367,6 +398,7 @@ drawGameItems() {
         this.ctx.scale(-1, 1);
         mo.x = mo.x * -1;
     }
+
     /**
      * Restores the canvas state after flipping and resets the object's x position.
      * @param {Object} mo Movable object to flip back.
@@ -375,6 +407,7 @@ drawGameItems() {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
     /**
      * Displays the game over or victory screen depending on the status.
      * @param {'lose'|'win'} status The game end status.
@@ -390,6 +423,7 @@ drawGameItems() {
             this.WonTheGame(endScreen, startImg);
         }
     }
+
     /**
      * Handles the lost game UI and sound effects.
      * @param {HTMLElement} endScreen The end screen element.
@@ -403,6 +437,7 @@ drawGameItems() {
         this.showEndScreen(endScreen);
         this.endSound();
     }
+
     /**
      * Handles the won game UI and sound effects.
      * @param {HTMLElement} endScreen The end screen element.
@@ -416,6 +451,7 @@ drawGameItems() {
         this.showEndScreen(endScreen);
         this.endSound();
     }
+
     /**
      * Shows the end screen after a short delay.
      * @param {HTMLElement} endScreen The end screen element to display.
@@ -425,6 +461,7 @@ drawGameItems() {
             endScreen.classList.add("show");
         }, 100);
     }
+
     /** 
      * Turns off sounds after a delay to allow game over sounds to finish.
      */

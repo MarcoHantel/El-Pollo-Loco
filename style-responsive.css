@@ -1,4 +1,4 @@
-@media only screen and (max-width: 760px) {
+ @media only screen and (max-width: 760px) {
 
     .start-button {
         width: 200px;
@@ -25,52 +25,6 @@
     .start-button h2 {
         font-size: 15px;
         letter-spacing: 1px;
-    }
-}
-
-@media only screen and (max-width: 1180px) {
-
-    canvas {
-        width: 100%;
-    }
-
-    canvas {
-        outline: none;
-    }
-
-    h1 {
-        display: none;
-    }
-
-    .how-to-play {
-        display: none;
-    }
-
-    .sound-icon-container {
-        display: none;
-    }
-}
-
-@media (min-width: 1180px) {
-
-    canvas {
-        width: 100%;
-    }
-
-    canvas {
-        outline: none;
-    }
-
-    h1 {
-        display: none;
-    }
-
-    .how-to-play {
-        display: none;
-    }
-
-    .sound-icon-container {
-        display: none;
     }
 }
 
@@ -107,11 +61,7 @@
     }
 }
 
-/* NEW */
 @media (max-width: 720px) {
-    /* .sound-icon-container {
-        display: none;
-    } */
 
     canvas {
         width: 100%;
@@ -201,6 +151,27 @@
         font-weight: normal;
 
     }
+}
 
+@media only screen and (max-width: 1180px) {
 
+    canvas {
+        width: 100%;
+    }
+
+    canvas {
+        outline: none;
+    }
+
+    h1 {
+        display: none;
+    }
+
+    .how-to-play {
+        display: none;
+    }
+
+    .sound-icon-container {
+        display: none;
+    } 
 }

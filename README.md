@@ -42,6 +42,8 @@ Open the project folder:
 cd el-pollo-loco
 Open index.html in your browser
 
+Special Thanks to: https://developerakademie.com/ the best developerschool!!!!
+
 <img width="826" height="716" alt="image" src="https://github.com/user-attachments/assets/53500028-08f4-4975-8ac1-9aad89a47446" />
 
 Have FUUUUNNNNN!!!!
